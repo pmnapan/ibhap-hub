@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IBHAP Foundation — รายงานประจำปี 2568 | Buddhism for SDGs: 5Ps + Phra</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Sarabun:wght@300;400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--gold:#C5973E;--gold-light:#E8D5A8;--saffron:#E87B35;--maroon:#7B2D26;--teal:#1A7A6D;--blue:#2D5F8B;--green:#3D7A4A;--purple:#6B4C8A;--pink:#B85C78;--bg:#0F1117;--bg2:#161922;--bg3:#1E2230;--text:#E8E4DC;--text2:#9B9689;--border:rgba(197,151,62,0.15)}
+*{margin:0;padding:0;box-sizing:border-box}body{font-family:'Sarabun',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}.eng{font-family:'DM Sans',sans-serif}h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:600;letter-spacing:0.02em}
+.hero{position:relative;padding:3rem 2rem 2rem;text-align:center;border-bottom:1px solid var(--border);background:linear-gradient(180deg,rgba(197,151,62,0.06) 0%,transparent 100%)}.hero-badge{display:inline-block;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);padding:4px 16px;border-radius:20px;margin-bottom:1rem;font-family:'DM Sans',sans-serif}.hero h1{font-size:2.2rem;color:var(--gold-light);margin-bottom:0.3rem}.hero .subtitle{font-size:1rem;color:var(--text2);font-weight:300}.hero .year-big{font-family:'Cormorant Garamond',serif;font-size:5rem;font-weight:700;color:rgba(197,151,62,0.08);position:absolute;top:1rem;right:2rem;line-height:1}
+.kpi-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1px;background:var(--border);border-bottom:1px solid var(--border)}.kpi{background:var(--bg2);padding:1.2rem 1rem;text-align:center}.kpi .num{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:700;color:var(--gold)}.kpi .label{font-size:0.75rem;color:var(--text2);margin-top:2px}
+.section{padding:2rem 1.5rem;border-bottom:1px solid var(--border)}.section-title{font-size:1.3rem;color:var(--gold-light);margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem}.section-title .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.ps-grid{display:grid;grid-template-columns:1fr;gap:12px;margin-top:1rem}.ps-row{display:flex;align-items:center;gap:12px}.ps-label{width:100px;font-size:0.85rem;font-weight:600;text-align:right;flex-shrink:0}.ps-bar-bg{flex:1;height:32px;background:var(--bg3);border-radius:6px;overflow:hidden;position:relative}.ps-bar{height:100%;border-radius:6px;display:flex;align-items:center;justify-content:flex-end;padding-right:10px;font-size:0.75rem;font-weight:700;color:#fff;transition:width 1.5s cubic-bezier(0.22,1,0.36,1)}.ps-count{font-family:'DM Sans',sans-serif}
+.timeline{position:relative;margin-top:1rem}.month-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}.month-label{width:35px;font-size:0.7rem;color:var(--text2);text-align:right;flex-shrink:0;font-family:'DM Sans',sans-serif}.month-blocks{flex:1;display:flex;gap:2px;flex-wrap:wrap}.block{width:8px;height:8px;border-radius:2px;opacity:0.85;cursor:pointer;transition:transform 0.2s}.block:hover{transform:scale(1.8);opacity:1}
+.partner-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-top:1rem}.partner-card{background:var(--bg3);border-radius:8px;padding:1rem;border-left:3px solid var(--gold);transition:transform 0.2s}.partner-card:hover{transform:translateY(-2px)}.partner-card .org{font-weight:700;font-size:0.9rem;margin-bottom:4px}.partner-card .role{font-size:0.75rem;color:var(--text2)}.partner-card .tags{display:flex;gap:4px;margin-top:6px;flex-wrap:wrap}.tag{font-size:0.65rem;padding:2px 8px;border-radius:10px;font-family:'DM Sans',sans-serif;font-weight:500}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:1rem}.tab{padding:6px 14px;font-size:0.8rem;border-radius:20px;cursor:pointer;border:1px solid var(--border);color:var(--text2);transition:all 0.3s;background:transparent}.tab.active{background:var(--gold);color:var(--bg);border-color:var(--gold);font-weight:600}
+.globe-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;margin-top:1rem}.globe-item{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--bg3);border-radius:6px;font-size:0.8rem}.globe-item .flag{font-size:1.2rem}.globe-item .event{font-weight:600}.globe-item .date{font-size:0.7rem;color:var(--text2);font-family:'DM Sans',sans-serif}
+.fin-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border)}.fin-row:last-child{border:none}.fin-label{font-size:0.85rem}.fin-val{font-family:'DM Sans',sans-serif;font-weight:700;color:var(--gold)}
+.centres-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:1rem}.centre-card{background:var(--bg3);border-radius:10px;padding:1.2rem;position:relative;overflow:hidden}.centre-card .icon{font-size:1.5rem;margin-bottom:6px}.centre-card .name{font-weight:700;font-size:0.9rem;margin-bottom:4px}.centre-card .desc{font-size:0.75rem;color:var(--text2)}
+.footer{padding:2rem;text-align:center;color:var(--text2);font-size:0.75rem;border-top:1px solid var(--border)}
+::-webkit-scrollbar{width:6px}::-webkit-scrollbar-track{background:var(--bg)}::-webkit-scrollbar-thumb{background:var(--gold);border-radius:3px}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="year-big eng">2568</div>
+  <div class="hero-badge eng">Annual Report · Buddhism for SDGs</div>
+  <h1>มูลนิธิ สกพ. — IBHAP Foundation</h1>
+  <p class="subtitle">สถาบันการจัดการวิถีพุทธเพื่อสุขและสันติ · ประจำปี ๒๕๖๘</p>
+  <p style="margin-top:0.5rem;font-size:0.8rem;color:var(--text2)">กรอบ 5Ps + Phra: People · Prosperity · Planet · Peace · Partnership + พระ</p>
+</div>
+
+<div class="kpi-strip">
+  <div class="kpi"><div class="num">88+</div><div class="label">กิจกรรมทั้งหมด</div></div>
+  <div class="kpi"><div class="num">8+</div><div class="label">ประเทศ</div></div>
+  <div class="kpi"><div class="num">40+</div><div class="label">องค์กรภาคี</div></div>
+  <div class="kpi"><div class="num">17</div><div class="label">องค์กรร่วม MOU</div></div>
+  <div class="kpi"><div class="num eng" style="font-size:1.3rem">6</div><div class="label">ศูนย์ดำเนินงาน</div></div>
+  <div class="kpi"><div class="num">26</div><div class="label">กรรมการ</div></div>
+</div>
+
+<!-- 5Ps + Phra -->
+<div class="section">
+  <div class="section-title"><span class="dot" style="background:var(--gold)"></span>กิจกรรมตามกรอบ 5Ps + Phra</div>
+  <p style="font-size:0.8rem;color:var(--text2);margin-bottom:1rem">จำแนกกิจกรรมตามมิติการพัฒนาที่ยั่งยืน (กิจกรรม 1 รายการอาจนับได้หลายมิติ)</p>
+  <div class="ps-grid">
+    <div class="ps-row"><div class="ps-label" style="color:var(--saffron)">🙏 Phra</div><div class="ps-bar-bg"><div class="ps-bar" style="width:88%;background:linear-gradient(90deg,var(--saffron),#D4622A)"><span class="ps-count">72</span></div></div></div>
+    <div class="ps-row"><div class="ps-label" style="color:var(--teal)">🌍 Planet</div><div class="ps-bar-bg"><div class="ps-bar" style="width:50%;background:linear-gradient(90deg,var(--teal),#24A08F)"><span class="ps-count">41</span></div></div></div>
+    <div class="ps-row"><div class="ps-label" style="color:var(--blue)">☮️ Peace</div><div class="ps-bar-bg"><div class="ps-bar" style="width:45%;background:linear-gradient(90deg,var(--blue),#3B7BB8)"><span class="ps-count">37</span></div></div></div>
+    <div class="ps-row"><div class="ps-label" style="color:var(--pink)">👥 People</div><div class="ps-bar-bg"><div class="ps-bar" style="width:42%;background:linear-gradient(90deg,var(--pink),#D4708A)"><span class="ps-count">34</span></div></div></div>
+    <div class="ps-row"><div class="ps-label" style="color:var(--purple)">🤝 Partnership</div><div class="ps-bar-bg"><div class="ps-bar" style="width:38%;background:linear-gradient(90deg,var(--purple),#8B6AAE)"><span class="ps-count">31</span></div></div></div>
+    <div class="ps-row"><div class="ps-label" style="color:var(--green)">💰 Prosperity</div><div class="ps-bar-bg"><div class="ps-bar" style="width:20%;background:linear-gradient(90deg,var(--green),#52A362)"><span class="ps-count">16</span></div></div></div>
+  </div>
+</div>
+
+<!-- HEATMAP -->
+<div class="section">
+  <div class="section-title"><span class="dot" style="background:var(--teal)"></span>ความถี่กิจกรรมรายเดือน</div>
+  <p style="font-size:0.75rem;color:var(--text2);margin-bottom:0.8rem">แต่ละจุด = 1 กิจกรรม · สี = ประเภท: <span style="color:var(--saffron)">■</span> บรรยาย <span style="color:var(--teal)">■</span> เสวนา/สัมมนา <span style="color:var(--blue)">■</span> ไลฟ์ <span style="color:var(--pink)">■</span> โครงการ/เครือข่าย <span style="color:var(--purple)">■</span> สื่อ</p>
+  <div class="timeline" id="heatmap"></div>
+</div>
+
+<!-- INTERNATIONAL -->
+<div class="section">
+  <div class="section-title"><span class="dot" style="background:var(--blue)"></span>เวทีนานาชาติ ปี 2568</div>
+  <div class="globe-list">
+    <div class="globe-item"><span class="flag">🇮🇩</span><div><div class="event">PaRD Leadership Meeting</div><div class="date">3 ก.พ. · จาการ์ตา</div></div></div>
+    <div class="globe-item"><span class="flag">🇲🇾</span><div><div class="event">Sunway Charter: Faith in Action</div><div class="date">28 เม.ย. · กัวลาลัมเปอร์</div></div></div>
+    <div class="globe-item"><span class="flag">🇮🇩</span><div><div class="event">Guest Lecture, UGM/ICRS</div><div class="date">มิ.ย. · ยอกยาการ์ตา</div></div></div>
+    <div class="globe-item"><span class="flag">🇸🇬</span><div><div class="event">ACRP EC Meeting</div><div class="date">ม.ค.–ก.พ. · สิงคโปร์</div></div></div>
+    <div class="globe-item"><span class="flag">🇸🇬</span><div><div class="event">ICCS 2025 — Plenary Speaker</div><div class="date">24–26 มิ.ย.</div></div></div>
+    <div class="globe-item"><span class="flag">🇸🇬</span><div><div class="event">CERITA KITA Zine Launch</div><div class="date">9 ส.ค.</div></div></div>
+    <div class="globe-item"><span class="flag">🇨🇳</span><div><div class="event">ACRP ศึกษาดูงาน อุรุมชี</div><div class="date">ก.ค.–ส.ค. · ซินเจียง</div></div></div>
+    <div class="globe-item"><span class="flag">🇮🇩</span><div><div class="event">Ruang Riung Peace Space</div><div class="date">พ.ย. · ยอกยาการ์ตา</div></div></div>
+    <div class="globe-item"><span class="flag">🇵🇭</span><div><div class="event">SALAAM Mindanao 2025</div><div class="date">25 พ.ย. · ดาเวา</div></div></div>
+    <div class="globe-item"><span class="flag">🇵🇹</span><div><div class="event">KAICIID Fellows 10th Anniv.</div><div class="date">18 มิ.ย. · ลิสบอน</div></div></div>
+  </div>
+</div>
+
+<!-- FLAGSHIP PROGRAMMES -->
+<div class="section">
+  <div class="section-title"><span class="dot" style="background:var(--saffron)"></span>โครงการ Flagship ปี 2568</div>
+  <div class="centres-grid">
+    <div class="centre-card" style="border-top:3px solid var(--teal)"><div class="icon">🌳</div><div class="name">ทำบุญวิถีใหม่ เวียนเทียนด้วยต้นไม้</div><div class="desc">MOU 17 องค์กร · ร่วมกับ มูลนิธิปลูกต้นไม้ปลูกธรรมะ + สสส. + กทม. · จัดทุกวันสำคัญทางศาสนา</div></div>
+    <div class="centre-card" style="border-top:3px solid var(--blue)"><div class="icon">☮️</div><div class="name">BKKCAW25 "โลกรวน-โลกรอด"</div><div class="desc">2–4 ต.ค. · IBHAP + ธรรมรัฐ + HD Centre + JUTI + RfP · สนับสนุน KAICIID · ณ วัดสระเกศ</div></div>
+    <div class="centre-card" style="border-top:3px solid var(--pink)"><div class="icon">🎤</div><div class="name">Youth-led Storytelling for Peace</div><div class="desc">19–21 ธ.ค. · เยาวชนจากหลายประเทศ · ทุน Finn Church Aid + KAICIID + Peacemakers Network</div></div>
+    <div class="centre-card" style="border-top:3px solid var(--purple)"><div class="icon">⚖️</div><div class="name">กสม. × IBHAP ชายแดนใต้</div><div class="desc">ศูนย์ประสานงานพุทธวิธีฯ วัดตานีนรสโมสร · HRHM + เสวนาพุทธวิธีเพื่อสิทธิมนุษยชน</div></div>
+    <div class="centre-card" style="border-top:3px solid var(--saffron)"><div class="icon">🎨</div><div class="name">Kid Right, Kids Write</div><div class="desc">กิจกรรมเยาวชนศิลปะ × สิทธิมนุษยชน · ร่วม YEP Centre + HR Centre + มพก.</div></div>
+    <div class="centre-card" style="border-top:3px solid var(--green)"><div class="icon">📹</div><div class="name">ICRC 360° VR Project</div><div class="desc">ถ่ายทำสื่อ VR ด้านมนุษยธรรม ณ วัดสระเกศ · สื่อฝึกอบรมระดับนานาชาติ</div></div>
+  </div>
+</div>
+
+<!-- PARTNERS -->
+<div class="section">
+  <div class="section-title"><span class="dot" style="background:var(--purple)"></span>เครือข่ายพันธมิตรหลัก × 5Ps + Phra</div>
+  <div class="tabs" id="partnerTabs">
+    <div class="tab active" onclick="filterPartners('all')">ทั้งหมด</div>
+    <div class="tab" onclick="filterPartners('peace')">☮️ Peace</div>
+    <div class="tab" onclick="filterPartners('people')">👥 People</div>
+    <div class="tab" onclick="filterPartners('planet')">🌍 Planet</div>
+    <div class="tab" onclick="filterPartners('partnership')">🤝 Partnership</div>
+    <div class="tab" onclick="filterPartners('phra')">🙏 Phra</div>
+    <div class="tab" onclick="filterPartners('prosperity')">💰 Prosperity</div>
+  </div>
+  <div class="partner-grid" id="partnerGrid"></div>
+</div>
+
+<!-- FINANCIAL -->
+<div class="section">
+  <div class="section-title"><span class="dot" style="background:var(--green)"></span>สถานะการเงิน ปี 2568</div>
+  <div style="max-width:560px">
+    <div class="fin-row"><span class="fin-label">รายรับจากผู้บริจาค</span><span class="fin-val eng">1,731,870.97</span></div>
+    <div class="fin-row"><span class="fin-label">รายรับดอกเบี้ย</span><span class="fin-val eng">3,148.69</span></div>
+    <div class="fin-row" style="border-top:2px solid var(--gold);padding-top:12px"><span class="fin-label" style="font-weight:700">รวมรายรับ</span><span class="fin-val eng" style="font-size:1.1rem">1,735,019.66</span></div>
+    <div style="height:16px"></div>
+    <div class="fin-row"><span class="fin-label">สื่อสารพุทธศาสนาเพื่อ SDGs</span><span class="fin-val eng">713,191.65</span></div>
+    <div class="fin-row"><span class="fin-label">กิจกรรมสังคมและศาสนสัมพันธ์</span><span class="fin-val eng">51,282.19</span></div>
+    <div class="fin-row"><span class="fin-label">บริจาคสนับสนุนองค์กรการกุศล</span><span class="fin-val eng">55,000.00</span></div>
+    <div class="fin-row"><span class="fin-label">ค่าดำเนินงาน</span><span class="fin-val eng">415,294.37</span></div>
+    <div class="fin-row"><span class="fin-label">โครงการจากเงินสนับสนุน (BKKCAW + Storytelling)</span><span class="fin-val eng">971,221.33</span></div>
+    <div class="fin-row" style="border-top:2px solid var(--gold);padding-top:12px"><span class="fin-label" style="font-weight:700">รวมรายจ่าย</span><span class="fin-val eng" style="font-size:1.1rem">2,205,989.54</span></div>
+    <div style="height:16px"></div>
+    <div class="fin-row" style="background:rgba(184,92,120,0.12);padding:12px;border-radius:8px"><span class="fin-label" style="font-weight:700;color:var(--pink)">รายรับสูง(ต่ำ)กว่ารายจ่าย</span><span class="fin-val eng" style="color:var(--pink)">(471,284.75)</span></div>
+    <div style="height:12px"></div>
+    <div class="fin-row" style="background:rgba(197,151,62,0.08);padding:12px;border-radius:8px"><span class="fin-label" style="font-weight:700">สินทรัพย์รวม ณ 31 ธ.ค. 2568</span><span class="fin-val eng" style="font-size:1.2rem">2,004,610.71</span></div>
+    <p style="font-size:0.75rem;color:var(--text2);margin-top:8px">📌 เทียบปี 2567: รายรับ 1,851,688 ▸ รายจ่าย 1,498,019 ▸ สินทรัพย์ 2,472,166<br>⚠️ ปี 2568 ใช้จ่ายเกินรายรับ 471K เพราะมีโครงการจากเงินสนับสนุน (BKKCAW25 + Storytelling) 971K ที่เป็นรายจ่ายปีนี้</p>
+  </div>
+</div>
+
+<!-- MILESTONES -->
+<div class="section">
+  <div class="section-title"><span class="dot" style="background:var(--gold)"></span>เหตุการณ์สำคัญ ปี 2568</div>
+  <div style="display:grid;gap:10px;max-width:700px">
+    <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:70px;flex-shrink:0;font-size:0.75rem;color:var(--gold);font-family:'DM Sans';font-weight:700;text-align:right">13 ม.ค.</div><div style="font-size:0.85rem">📿 บรรยาย <strong>"ชีวิตเบิกบาน ทำงานเป็นสุข"</strong> ณ สำนักประธานศาลปกครองสูงสุด — ในฐานะ เลขาธิการ RfP-IRC Thailand</div></div>
+    <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:70px;flex-shrink:0;font-size:0.75rem;color:var(--gold);font-family:'DM Sans';font-weight:700;text-align:right">16 ม.ค.</div><div style="font-size:0.85rem">🌳 ลงนาม <strong>MOU ทำบุญวิถีใหม่ เวียนเทียนด้วยต้นไม้ ลดฝุ่น</strong> ร่วมกับ 16 หน่วยงาน ณ สสส.</div></div>
+    <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:70px;flex-shrink:0;font-size:0.75rem;color:var(--gold);font-family:'DM Sans';font-weight:700;text-align:right">3 ก.พ.</div><div style="font-size:0.85rem">🌏 นำคณะผู้แทนไทย เข้าร่วม <strong>PaRD Leadership Meeting</strong> ครั้งแรกในเอเชีย จาการ์ตา</div></div>
+    <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:70px;flex-shrink:0;font-size:0.75rem;color:var(--gold);font-family:'DM Sans';font-weight:700;text-align:right">24–26 มิ.ย.</div><div style="font-size:0.85rem">🎤 วิทยากร <strong>Plenary 3 ใน ICCS 2025</strong> สิงคโปร์ — เวทีสังคมสมานฉันท์ระดับโลก</div></div>
+    <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:70px;flex-shrink:0;font-size:0.75rem;color:var(--gold);font-family:'DM Sans';font-weight:700;text-align:right">2–4 ต.ค.</div><div style="font-size:0.85rem">🕊️ จัด <strong>BKKCAW25</strong> "โลกรวน-โลกรอด: From BKKCAW25 to COP30" ณ วัดสระเกศ ร่วมกับ 5+ องค์กร</div></div>
+    <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:70px;flex-shrink:0;font-size:0.75rem;color:var(--gold);font-family:'DM Sans';font-weight:700;text-align:right">25 พ.ย.</div><div style="font-size:0.85rem">🇵🇭 เยาวชน CERITA-KAICIID ร่วม <strong>SALAAM Mindanao</strong> — ขยายเครือข่าย SEA Y4H</div></div>
+    <div style="display:flex;gap:12px;align-items:flex-start"><div style="width:70px;flex-shrink:0;font-size:0.75rem;color:var(--gold);font-family:'DM Sans';font-weight:700;text-align:right">19–21 ธ.ค.</div><div style="font-size:0.85rem">📖 จัด <strong>Youth-led Storytelling for Peace</strong> — โครงการนานาชาติแรกของ IBHAP ทุน Finland + KAICIID</div></div>
+  </div>
+</div>
+
+<div class="footer">
+  <p style="color:var(--gold);font-size:0.85rem;margin-bottom:4px">สันติสุขในใจใคร เริ่มต้นได้ที่ใจเรา</p>
+  <p class="eng">Peace in One's Heart Starts in One's Hands</p>
+  <p style="margin-top:8px">มูลนิธิสถาบันการจัดการวิถีพุทธเพื่อสุขและสันติ · วัดสระเกศ (คณะ 6) · กรุงเทพฯ</p>
+  <p class="eng" style="margin-top:4px;font-size:0.65rem;opacity:0.5">Data visualisation generated from official annual report 2568 (2025)</p>
+</div>
+
+<script>
+const months=[['ม.ค.',2,1,2,4,0],['ก.พ.',2,1,2,2,0],['มี.ค.',0,0,1,2,0],['เม.ย.',1,0,1,3,0],['พ.ค.',1,1,1,3,0],['มิ.ย.',0,1,1,2,0],['ก.ค.',1,1,2,6,1],['ส.ค.',0,0,2,8,1],['ก.ย.',0,0,1,7,1],['ต.ค.',1,0,1,5,0],['พ.ย.',0,0,1,9,0],['ธ.ค.',0,0,0,4,0]];
+const colors=['var(--saffron)','var(--teal)','var(--blue)','var(--pink)','var(--purple)'];
+const heatmap=document.getElementById('heatmap');
+months.forEach(m=>{const row=document.createElement('div');row.className='month-row';row.innerHTML=`<div class="month-label">${m[0]}</div><div class="month-blocks"></div>`;const blocks=row.querySelector('.month-blocks');for(let t=1;t<=5;t++){for(let i=0;i<m[t];i++){const b=document.createElement('div');b.className='block';b.style.background=colors[t-1];blocks.appendChild(b)}}heatmap.appendChild(row)});
+
+const partners=[
+  {org:'KAICIID Dialogue Centre',role:'BKKCAW25 co-host, CERITA, Fellows 10th Anniv., Youth Storytelling, Dialogue Cities',tags:['peace','partnership','phra']},
+  {org:'สำนักงาน กสม. (ปิติกาญจน์ สิทธิเดช)',role:'HRHM ปัตตานี, ศูนย์ประสานงานวัดตานีนรสโมสร, BKKCAW25 ปาฐกถา, Youth Storytelling',tags:['people','peace','phra']},
+  {org:'ศูนย์คุณธรรม (สุริยเดว ทรีปาตี)',role:'สมัชชาคุณธรรม ครั้งที่ 14, Active Media, Thailand Moral Awards',tags:['people','partnership','phra']},
+  {org:'มูลนิธิปลูกต้นไม้ ปลูกธรรมะ + สสส.',role:'MOU ทำบุญวิถีใหม่ เวียนเทียนด้วยต้นไม้ ลดฝุ่น (17 องค์กร)',tags:['planet','phra']},
+  {org:'ศูนย์ฝึกอาชีพบางพลัด (อ.ต้อย)',role:'ตัดผมฟรีทุกเดือน 8+ ครั้ง/ปี · รวมชาวไทยและเมียนมา',tags:['people','prosperity']},
+  {org:'ธนาคารจิตอาสา (JitArsa Bank)',role:'จิตอาสาร่วมเกือบทุกกิจกรรมชุมชน — ห้องสมุด, เวียนเทียน, วันแม่',tags:['people','partnership']},
+  {org:'Cofact Thailand (สุภิญญา กลางณรงค์)',role:'สัมภาษณ์, BKKCAW25, COFACT Connect, International Fact-Checking Day',tags:['people','partnership','prosperity']},
+  {org:'Network for Religious & Traditional Peacemakers',role:'Youth Storytelling co-funder, Cultivating Peace, Regional Consultation',tags:['peace','partnership']},
+  {org:'มูลนิธิเพื่อเด็กพิการ (มพก.)',role:'Kid Right, ของขวัญส่งสุข, มอบกล้าไม้ให้ครอบครัวเด็กพิการ',tags:['people','partnership']},
+  {org:'PaRD',role:'Leadership Meeting จาการ์ตา (ครั้งแรกในเอเชีย), workstream collaboration',tags:['partnership','phra']},
+  {org:'WCC — World Council of Churches',role:'Reference Group member, Online Learning Series on IRD',tags:['peace','phra']},
+  {org:'โรงเรียนสาธิตจุฬาลงกรณ์ฯ',role:'สรรหาธรรมยามเช้า 4+ ครั้ง/ปี (ม.1–ม.6)',tags:['phra','people']},
+  {org:'30×30 Thailand Coalition / IUCN',role:'Act30 Biodiversity, การอนุรักษ์ 30% พื้นที่ธรรมชาติ',tags:['planet']},
+  {org:'ICRC',role:'360° VR Video production ณ วัดสระเกศ · สื่อฝึกอบรมมนุษยธรรม',tags:['peace','people']},
+  {org:'Toolmorrow (สุรเสกข์ ยุทธิวัฒน์)',role:'กิจกรรม "รักแท้ดูแลใจ" · สื่อสร้างสรรค์ ณ วัดสระเกศ',tags:['phra','prosperity']},
+  {org:'Sunway Centre for Planetary Health',role:'Sunway Charter: Faith in Action · Planetary Health × Faith',tags:['planet','phra']},
+  {org:'กรุงเทพมหานคร (กทม.)',role:'MOU ทำบุญวิถีใหม่, BKK Zerowaste ต่อเนื่อง',tags:['planet','partnership']},
+  {org:'UGM / ICRS อินโดนีเซีย',role:'Guest Lecture ยอกยาการ์ตา, Ruang Riung Peace Space',tags:['partnership','phra']},
+  {org:'Religions for Peace / ACRP',role:'EC Meeting สิงคโปร์, ศึกษาดูงานอุรุมชี, เลขาธิการ RfP-IRC',tags:['peace','partnership']},
+  {org:'ศอ.บต.',role:'เสวนาพุทธวิธีเพื่อสิทธิมนุษยชน ชายแดนใต้',tags:['people','peace']},
+];
+
+const tagColors={people:'var(--pink)',prosperity:'var(--green)',planet:'var(--teal)',peace:'var(--blue)',partnership:'var(--purple)',phra:'var(--saffron)'};
+const tagLabels={people:'People',prosperity:'Prosperity',planet:'Planet',peace:'Peace',partnership:'Partnership',phra:'Phra'};
+
+function renderPartners(filter){
+  const grid=document.getElementById('partnerGrid');grid.innerHTML='';
+  const filtered=filter==='all'?partners:partners.filter(p=>p.tags.includes(filter));
+  filtered.forEach(p=>{const card=document.createElement('div');card.className='partner-card';card.style.borderLeftColor=p.tags.length>0?tagColors[p.tags[0]]:'var(--gold)';card.innerHTML=`<div class="org">${p.org}</div><div class="role">${p.role}</div><div class="tags">${p.tags.map(t=>`<span class="tag" style="background:${tagColors[t]}20;color:${tagColors[t]};border:1px solid ${tagColors[t]}40">${tagLabels[t]}</span>`).join('')}</div>`;grid.appendChild(card)});
+}
+function filterPartners(f){document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));event.target.classList.add('active');renderPartners(f)}
+renderPartners('all');
+</script>
+</body>
+</html>
