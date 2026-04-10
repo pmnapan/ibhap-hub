@@ -1,469 +1,60 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IBHAP Hub — pmnapan</title>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>IBHAP Hub - Buddhism for SDGs</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Sarabun:wght@300;400;600;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --gold: #C9A84C;
-    --gold-light: #E8C96A;
-    --saffron: #E07B2A;
-    --deep: #1A1A2E;
-    --surface: #F8F5EF;
-    --surface-alt: #F0EBE0;
-    --ink: #2C2416;
-    --ink-soft: #6B5F4A;
-    --teal: #2A6B6B;
-    --teal-light: #3D8B8B;
-    --border: rgba(201,168,76,0.25);
-  }
-
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--surface);
-    color: var(--ink);
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* ── HEADER ── */
-  header {
-    position: relative;
-    background: var(--deep);
-    padding: 3.5rem 2rem 3rem;
-    text-align: center;
-    overflow: hidden;
-  }
-
-  header::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 60% 80% at 50% -10%, rgba(201,168,76,0.18) 0%, transparent 70%),
-      radial-gradient(ellipse 40% 50% at 80% 110%, rgba(224,123,42,0.12) 0%, transparent 60%);
-    pointer-events: none;
-  }
-
-  .dharma-wheel {
-    width: 48px;
-    height: 48px;
-    margin: 0 auto 1.2rem;
-    opacity: 0.85;
-    animation: spin 18s linear infinite;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  header h1 {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2rem, 5vw, 3rem);
-    font-weight: 300;
-    color: var(--gold-light);
-    letter-spacing: 0.05em;
-    line-height: 1.15;
-    position: relative;
-  }
-
-  header h1 span {
-    display: block;
-    font-size: 0.42em;
-    font-weight: 400;
-    color: rgba(255,255,255,0.5);
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    margin-bottom: 0.4em;
-  }
-
-  .tagline {
-    margin-top: 0.8rem;
-    font-size: 0.82rem;
-    color: rgba(255,255,255,0.38);
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    font-weight: 300;
-    position: relative;
-  }
-
-  .gold-rule {
-    width: 48px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold), transparent);
-    margin: 1.6rem auto 0;
-  }
-
-  /* ── MAIN ── */
-  main {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 3rem 1.5rem 5rem;
-  }
-
-  /* ── SECTION LABEL ── */
-  .section-label {
-    font-size: 0.7rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: var(--gold);
-    font-weight: 500;
-    margin-bottom: 1.4rem;
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  .section-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
-  }
-
-  /* ── GRID ── */
-  .card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 1.25rem;
-    margin-bottom: 3.5rem;
-  }
-
-  .card {
-    background: #fff;
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 1.5rem 1.6rem 1.4rem;
-    text-decoration: none;
-    color: var(--ink);
-    display: flex;
-    flex-direction: column;
-    gap: 0.55rem;
-    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, var(--gold), var(--saffron));
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 0.3s ease;
-  }
-
-  .card:hover {
-    border-color: rgba(201,168,76,0.55);
-    box-shadow: 0 4px 20px rgba(201,168,76,0.1);
-    transform: translateY(-2px);
-  }
-
-  .card:hover::before { transform: scaleX(1); }
-
-  .card-icon {
-    font-size: 1.4rem;
-    line-height: 1;
-    margin-bottom: 0.2rem;
-  }
-
-  .card-title {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.15rem;
-    font-weight: 600;
-    color: var(--ink);
-    line-height: 1.3;
-  }
-
-  .card-desc {
-    font-size: 0.79rem;
-    color: var(--ink-soft);
-    line-height: 1.55;
-    font-weight: 300;
-  }
-
-  .card-tag {
-    margin-top: auto;
-    font-size: 0.65rem;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--teal);
-    font-weight: 500;
-  }
-
-  /* ── PLACEHOLDER CARD ── */
-  .card.placeholder {
-    background: var(--surface-alt);
-    border-style: dashed;
-    border-color: rgba(201,168,76,0.2);
-    cursor: default;
-  }
-
-  .card.placeholder:hover {
-    transform: none;
-    box-shadow: none;
-    border-color: rgba(201,168,76,0.2);
-  }
-
-  .card.placeholder::before { display: none; }
-
-  .card.placeholder .card-title { color: var(--ink-soft); }
-
-  /* ── ABOUT STRIP ── */
-  .about-strip {
-    background: var(--deep);
-    border-radius: 4px;
-    padding: 2rem 2.2rem;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 1.5rem;
-    align-items: center;
-    margin-bottom: 3.5rem;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .about-strip::after {
-    content: '☸';
-    position: absolute;
-    right: 2rem;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 5rem;
-    color: rgba(201,168,76,0.06);
-    pointer-events: none;
-    line-height: 1;
-  }
-
-  .about-strip p {
-    font-size: 0.84rem;
-    color: rgba(255,255,255,0.55);
-    line-height: 1.8;
-    font-weight: 300;
-  }
-
-  .about-strip strong {
-    color: var(--gold-light);
-    font-weight: 400;
-  }
-
-  .contact-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-size: 0.75rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--gold);
-    text-decoration: none;
-    border: 1px solid rgba(201,168,76,0.35);
-    padding: 0.55rem 1.1rem;
-    border-radius: 2px;
-    white-space: nowrap;
-    transition: background 0.2s, color 0.2s;
-  }
-
-  .contact-link:hover {
-    background: var(--gold);
-    color: var(--deep);
-  }
-
-  /* ── FRAMEWORK PILLS ── */
-  .framework {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.6rem;
-    margin-bottom: 3.5rem;
-  }
-
-  .pill {
-    font-size: 0.72rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    font-weight: 500;
-    padding: 0.35rem 0.9rem;
-    border-radius: 100px;
-    border: 1px solid var(--border);
-    color: var(--ink-soft);
-    background: #fff;
-  }
-
-  .pill.highlight {
-    background: var(--teal);
-    color: #fff;
-    border-color: var(--teal);
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    text-align: center;
-    padding: 2rem;
-    border-top: 1px solid var(--border);
-    font-size: 0.72rem;
-    color: var(--ink-soft);
-    letter-spacing: 0.08em;
-    background: var(--surface);
-  }
-
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .card { animation: fadeUp 0.5s ease both; }
-  .card:nth-child(1) { animation-delay: 0.05s; }
-  .card:nth-child(2) { animation-delay: 0.10s; }
-  .card:nth-child(3) { animation-delay: 0.15s; }
-  .card:nth-child(4) { animation-delay: 0.20s; }
-  .card:nth-child(5) { animation-delay: 0.25s; }
-  .card:nth-child(6) { animation-delay: 0.30s; }
-
-  @media (max-width: 560px) {
-    .about-strip { grid-template-columns: 1fr; }
-    .about-strip::after { display: none; }
-  }
+:root{--gold:#C5973E;--gold-light:#E8D5A8;--saffron:#E87B35;--bg:#0F1117;--bg2:#161922;--bg3:#1E2230;--text:#E8E4DC;--text2:#9B9689;--border:rgba(197,151,62,0.15)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Sarabun',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+.eng{font-family:'DM Sans',sans-serif}
+header{text-align:center;padding:3rem 2rem 2rem;border-bottom:1px solid var(--border);background:linear-gradient(180deg,rgba(197,151,62,0.06) 0%,transparent 100%)}
+header h1{font-family:'Cormorant Garamond',serif;font-size:2.4rem;color:var(--gold-light);margin-bottom:0.3rem}
+header p{color:var(--text2);font-size:0.9rem}
+.badge{display:inline-block;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);padding:4px 16px;border-radius:20px;margin-bottom:1rem;font-family:'DM Sans'}
+.cards{max-width:900px;margin:2rem auto;padding:0 1.5rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:1.5rem;transition:transform 0.2s,border-color 0.3s;text-decoration:none;color:var(--text)}
+.card:hover{transform:translateY(-4px);border-color:var(--gold)}
+.card .icon{font-size:2rem;margin-bottom:0.8rem}
+.card h2{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--gold-light);margin-bottom:0.4rem}
+.card p{font-size:0.82rem;color:var(--text2);line-height:1.6}
+.card .tag{display:inline-block;font-size:0.65rem;padding:2px 10px;border-radius:10px;margin-top:0.8rem;font-family:'DM Sans';font-weight:500;background:rgba(197,151,62,0.12);color:var(--gold)}
+footer{text-align:center;padding:2rem;color:var(--text2);font-size:0.75rem;border-top:1px solid var(--border);margin-top:2rem}
+footer .motto{color:var(--gold);font-size:0.85rem;margin-bottom:4px}
 </style>
 </head>
 <body>
-
-<!-- HEADER -->
 <header>
-  <!-- Dharma Wheel SVG -->
-  <svg class="dharma-wheel" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="50" cy="50" r="46" stroke="#C9A84C" stroke-width="1.5"/>
-    <circle cx="50" cy="50" r="8"  stroke="#C9A84C" stroke-width="1.5"/>
-    <circle cx="50" cy="50" r="28" stroke="#C9A84C" stroke-width="1" stroke-dasharray="3 3"/>
-    <!-- 8 spokes -->
-    <line x1="50" y1="22" x2="50" y2="4"  stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
-    <line x1="50" y1="78" x2="50" y2="96" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
-    <line x1="22" y1="50" x2="4"  y2="50" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
-    <line x1="78" y1="50" x2="96" y2="50" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
-    <line x1="30" y1="30" x2="17" y2="17" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
-    <line x1="70" y1="70" x2="83" y2="83" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
-    <line x1="70" y1="30" x2="83" y2="17" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
-    <line x1="30" y1="70" x2="17" y2="83" stroke="#C9A84C" stroke-width="1.5" stroke-linecap="round"/>
-  </svg>
-
-  <h1>
-    <span>IBHAP Foundation</span>
-    Digital Resource Hub
-  </h1>
-  <p class="tagline">Institute of Buddhist Management for Happiness and Peace</p>
-  <div class="gold-rule"></div>
+<div class="badge eng">IBHAP Hub · Buddhism for SDGs</div>
+<h1>มูลนิธิ สกพ. — IBHAP Foundation</h1>
+<p>สถาบันการจัดการวิถีพุทธเพื่อสุขและสันติ · 5Ps + Phra Framework</p>
 </header>
-
-<!-- MAIN -->
-<main>
-
-  <!-- ABOUT STRIP -->
-  <div class="about-strip">
-    <p>
-      Curated digital tools, reports, and forms produced by
-      <strong>Ven. Napan Thawornbanjob (พระมหานภันต์ สนฺติภทฺโท)</strong>,
-      Assistant Abbot of Wat Saket &amp; Founding Chair of IBHAP Foundation —
-      advancing the <strong>5Ps&nbsp;+&nbsp;Phra</strong> framework for Buddhism and the SDGs.
-    </p>
-    <a class="contact-link" href="mailto:pmnapan@ibhap.org">✉ Contact</a>
-  </div>
-
-  <!-- FRAMEWORK PILLS -->
-  <div class="framework">
-    <span class="pill highlight">5Ps + Phra</span>
-    <span class="pill">People</span>
-    <span class="pill">Prosperity</span>
-    <span class="pill">Planet</span>
-    <span class="pill">Peace</span>
-    <span class="pill">Partnership</span>
-    <span class="pill">Buddhism &amp; SDGs</span>
-    <span class="pill">Interreligious Dialogue</span>
-  </div>
-
-  <!-- DASHBOARDS & TOOLS -->
-  <p class="section-label">Dashboards &amp; Tools</p>
-  <div class="card-grid">
-
-    <a class="card placeholder" href="#">
-      <div class="card-icon">📊</div>
-      <div class="card-title">IBHAP Operations Dashboard</div>
-      <div class="card-desc">Milestone tracking, partner activity, and programme overview for IBHAP Foundation.</div>
-      <div class="card-tag">Coming soon</div>
-    </a>
-
-    <a class="card placeholder" href="#">
-      <div class="card-icon">🎓</div>
-      <div class="card-title">PhD Progress Tracker</div>
-      <div class="card-desc">Chapter milestones, adviser deadlines, and committee submission timeline — SWU Social Management.</div>
-      <div class="card-tag">Coming soon</div>
-    </a>
-
-    <a class="card placeholder" href="#">
-      <div class="card-icon">🤝</div>
-      <div class="card-title">Partner Engagement Map</div>
-      <div class="card-desc">Tiered partner rankings mapped to the 5Ps + Phra dimensions, updated from IBHAP Annual Report.</div>
-      <div class="card-tag">Coming soon</div>
-    </a>
-
-  </div>
-
-  <!-- FORMS -->
-  <p class="section-label">Forms &amp; Surveys</p>
-  <div class="card-grid">
-
-    <a class="card placeholder" href="#">
-      <div class="card-icon">📋</div>
-      <div class="card-title">Pre-Training Survey</div>
-      <div class="card-desc">30-question survey for the Human Rights &amp; Spiritual Healing Training — monks in southern border provinces.</div>
-      <div class="card-tag">Coming soon</div>
-    </a>
-
-    <a class="card placeholder" href="#">
-      <div class="card-icon">🕊️</div>
-      <div class="card-title">IRD Youth Training Registration</div>
-      <div class="card-desc">KAICIID Regional Training on Interreligious Dialogue — June 2026 cohort.</div>
-      <div class="card-tag">Coming soon</div>
-    </a>
-
-  </div>
-
-  <!-- REPORTS & DOCUMENTS -->
-  <p class="section-label">Reports &amp; Documents</p>
-  <div class="card-grid">
-
-    <a class="card placeholder" href="#">
-      <div class="card-icon">📄</div>
-      <div class="card-title">IBHAP Annual Report 2025</div>
-      <div class="card-desc">Strategic summary, partner analysis, and programme highlights across all six Centres.</div>
-      <div class="card-tag">Coming soon</div>
-    </a>
-
-    <a class="card placeholder" href="#">
-      <div class="card-icon">🌐</div>
-      <div class="card-title">Online Learning Series 2026</div>
-      <div class="card-desc">Course outline for WCC-COE Interreligious Dialogue series — six thematic modules.</div>
-      <div class="card-tag">Coming soon</div>
-    </a>
-
-    <a class="card placeholder" href="#">
-      <div class="card-icon">💡</div>
-      <div class="card-title">AVPN Harmony Fund Proposal</div>
-      <div class="card-desc">Project narrative and eligibility documentation for the USD 50,000–200,000 Harmony in Diversity Fund.</div>
-      <div class="card-tag">Coming soon</div>
-    </a>
-
-  </div>
-
-</main>
-
+<div class="cards">
+<a class="card" href="ibhap_2567_vs_2568_analysis.html">
+<div class="icon">📊</div>
+<h2>วิเคราะห์เปรียบเทียบ 2567 vs 2568</h2>
+<p>เปรียบเทียบทุกมิติ: การเงิน, กิจกรรม, 5Ps+Phra, เครือข่าย, เวทีนานาชาติ พร้อมข้อเสนอแนะ 10 ประการ</p>
+<span class="tag">วิเคราะห์เชิงยุทธศาสตร์</span>
+</a>
+<a class="card" href="ibhap_2567_5ps_phra_dashboard.html">
+<div class="icon">📅</div>
+<h2>Dashboard ปี 2567</h2>
+<p>รายงานประจำปี 254 กิจกรรม, 10+ ประเทศ, 40+ องค์กรภาคี พร้อมแผนที่ 5Ps+Phra และสถานะการเงิน</p>
+<span class="tag eng">FY 2567 (2024)</span>
+</a>
+<a class="card" href="ibhap_2568_5ps_phra_dashboard.html">
+<div class="icon">📅</div>
+<h2>Dashboard ปี 2568</h2>
+<p>88+ กิจกรรม, 8+ ประเทศ, MOU 17 องค์กร, ทุนนานาชาติ 971K พร้อมงบการเงินจากผู้สอบบัญชี</p>
+<span class="tag eng">FY 2568 (2025)</span>
+</a>
+</div>
 <footer>
-  © 2026 IBHAP Foundation · <a href="https://ibhap.org" style="color:inherit;">ibhap.org</a> · Built with ☸ by pmnapan
+<p class="motto">สันติสุขในใจใคร เริ่มต้นได้ที่ใจเรา</p>
+<p class="eng">Institute of Buddhist Management for Happiness and Peace Foundation</p>
+<p style="margin-top:6px">วัดสระเกศ (คณะ 6) · กรุงเทพฯ</p>
 </footer>
-
 </body>
 </html>
