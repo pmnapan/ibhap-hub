@@ -1,0 +1,1929 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>สหภาคี IBHAP — Command Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500&family=Sarabun:wght@300;400;500;600;700&family=Bai+Jamjuree:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============== DESIGN TOKENS ============== */
+:root {
+  --cream-50: #FDFBF3;
+  --cream-100: #F8F2E0;
+  --cream-200: #F0E7CE;
+  --gold-400: #D4B266;
+  --gold-500: #C8A663;
+  --gold-600: #A88332;
+  --gold-700: #8A6923;
+  --ink-900: #1A1814;
+  --ink-700: #3D372A;
+  --ink-500: #6B5F47;
+  --ink-300: #9B8D72;
+  --ink-200: #C4B99F;
+  --red-warn: #B8564A;
+  --green-ok: #6B8E4E;
+  --blue-info: #4A6B8E;
+
+  --serif: 'Cormorant Garamond', 'Bai Jamjuree', serif;
+  --thai: 'Bai Jamjuree', 'Sarabun', sans-serif;
+  --mono: 'IBM Plex Mono', monospace;
+
+  --shadow-sm: 0 1px 2px rgba(26, 24, 20, 0.04);
+  --shadow-md: 0 4px 16px rgba(26, 24, 20, 0.06);
+  --shadow-lg: 0 12px 40px rgba(26, 24, 20, 0.08);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--thai);
+  background: var(--cream-50);
+  color: var(--ink-900);
+  line-height: 1.65;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  font-size: 18px;
+}
+
+/* Subtle background texture */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(212, 178, 102, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 80% 60%, rgba(200, 166, 99, 0.03) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 2.5rem 4rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ============== HEADER ============== */
+.header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: end;
+  padding: 3rem 0 2.5rem;
+  border-bottom: 1px solid var(--cream-200);
+  margin-bottom: 2.5rem;
+}
+
+.brand-mark {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  color: var(--gold-600);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+.masthead {
+  font-family: var(--serif);
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.015em;
+  color: var(--ink-900);
+  margin-bottom: 0.5rem;
+}
+.masthead .thai {
+  font-family: var(--thai);
+  font-weight: 600;
+  display: block;
+}
+.masthead .en {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 300;
+  color: var(--gold-600);
+  font-size: 0.6em;
+  margin-top: 0.25em;
+  display: block;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: var(--ink-500);
+  max-width: 520px;
+  margin-top: 1rem;
+  line-height: 1.55;
+}
+
+.header-meta {
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--ink-500);
+  line-height: 1.8;
+  letter-spacing: 0.05em;
+}
+.header-meta .date {
+  font-size: 0.9rem;
+  color: var(--ink-700);
+  font-weight: 500;
+}
+.header-meta .version {
+  color: var(--gold-600);
+  font-weight: 500;
+}
+
+/* ============== NAV ============== */
+.dashboard-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  margin-bottom: 2rem;
+  padding: 0.5rem;
+  background: var(--cream-100);
+  border-radius: 4px;
+  border: 1px solid var(--cream-200);
+}
+
+.nav-btn {
+  font-family: var(--thai);
+  font-size: 0.85rem;
+  font-weight: 500;
+  padding: 0.65rem 1.1rem;
+  background: transparent;
+  border: none;
+  color: var(--ink-500);
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all 0.18s ease;
+  letter-spacing: 0.01em;
+  flex: 1 1 auto;
+  min-width: fit-content;
+}
+.nav-btn:hover { color: var(--ink-900); background: rgba(212, 178, 102, 0.1); }
+.nav-btn.active {
+  background: var(--ink-900);
+  color: var(--cream-50);
+  box-shadow: var(--shadow-sm);
+}
+
+.nav-btn .num {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  opacity: 0.6;
+  margin-right: 0.4em;
+}
+
+/* ============== PANEL ============== */
+.panel { display: none; animation: fadeIn 0.4s ease; }
+.panel.active { display: block; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.section-heading {
+  font-family: var(--serif);
+  font-size: 1.9rem;
+  font-weight: 500;
+  color: var(--ink-900);
+  margin-bottom: 0.25rem;
+  letter-spacing: -0.01em;
+}
+.section-heading .thai {
+  font-family: var(--thai);
+  font-weight: 600;
+}
+.section-sub {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.25em;
+  color: var(--gold-600);
+  text-transform: uppercase;
+  margin-bottom: 1.75rem;
+  font-weight: 500;
+}
+
+/* ============== CARDS & GRID ============== */
+.card {
+  background: white;
+  border: 1px solid var(--cream-200);
+  border-radius: 6px;
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.card:hover { box-shadow: var(--shadow-md); }
+
+.card-title {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: var(--ink-900);
+  margin-bottom: 0.25rem;
+  line-height: 1.25;
+}
+.card-title .thai { font-family: var(--thai); font-weight: 600; }
+.card-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--gold-600);
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+.grid-5 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+/* ============== OVERVIEW ============== */
+.overview-hero {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+  background: linear-gradient(135deg, var(--cream-100) 0%, var(--cream-50) 100%);
+  border: 1px solid var(--cream-200);
+  border-radius: 8px;
+  padding: 2.5rem;
+}
+
+.hero-quote {
+  font-family: var(--serif);
+  font-size: 1.35rem;
+  font-style: italic;
+  color: var(--ink-700);
+  line-height: 1.5;
+  font-weight: 400;
+}
+.hero-quote::before {
+  content: '"';
+  font-size: 3rem;
+  color: var(--gold-400);
+  line-height: 0;
+  vertical-align: -0.3em;
+  margin-right: 0.15em;
+}
+.hero-attribution {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--ink-500);
+  text-transform: uppercase;
+  margin-top: 1rem;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+.metric {
+  background: white;
+  padding: 1.1rem 1.2rem;
+  border-radius: 4px;
+  border: 1px solid var(--cream-200);
+}
+.metric-num {
+  font-family: var(--serif);
+  font-size: 2.25rem;
+  font-weight: 500;
+  color: var(--gold-700);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+.metric-label {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  color: var(--ink-500);
+  text-transform: uppercase;
+  margin-top: 0.35rem;
+  font-weight: 500;
+}
+
+/* Values grid (IBHAP) */
+.values-row {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+.value-card {
+  background: white;
+  border: 1px solid var(--cream-200);
+  border-radius: 4px;
+  padding: 1.25rem 1rem;
+  text-align: center;
+  transition: all 0.25s ease;
+  cursor: default;
+  position: relative;
+  overflow: hidden;
+}
+.value-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--gold-500);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+  transform-origin: left;
+}
+.value-card:hover::before { transform: scaleX(1); }
+.value-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); }
+.value-card.primary { background: var(--ink-900); color: var(--cream-50); border-color: var(--ink-900); }
+.value-card.primary::before { background: var(--gold-400); transform: scaleX(1); }
+.value-card.primary .v-letter { color: var(--gold-400); }
+.value-card.primary .v-en { color: var(--cream-200); }
+.value-card.primary .v-th { color: var(--cream-100); }
+
+.v-letter {
+  font-family: var(--serif);
+  font-size: 3rem;
+  font-weight: 500;
+  color: var(--gold-600);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.4rem;
+}
+.v-en {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--ink-700);
+  margin-bottom: 0.15rem;
+  line-height: 1.25;
+}
+.v-th {
+  font-size: 0.75rem;
+  color: var(--ink-500);
+  line-height: 1.35;
+}
+.v-badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  background: var(--gold-400);
+  color: var(--ink-900);
+  padding: 0.15rem 0.5rem;
+  border-radius: 2px;
+  margin-top: 0.5rem;
+  font-weight: 500;
+}
+
+/* ============== CIRCLES ARCHITECTURE ============== */
+.circles-diagram {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+  position: relative;
+}
+.circle-card {
+  background: white;
+  border: 1px solid var(--cream-200);
+  border-radius: 6px;
+  padding: 1.75rem;
+  position: relative;
+  border-top: 4px solid var(--gold-500);
+}
+.circle-card.wisdom { border-top-color: #8A6923; }
+.circle-card.action { border-top-color: #6B8E4E; }
+.circle-card.harmony { border-top-color: #4A6B8E; }
+
+.circle-symbol {
+  font-family: var(--serif);
+  font-size: 3rem;
+  color: var(--gold-600);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+.circle-card.wisdom .circle-symbol { color: #8A6923; }
+.circle-card.action .circle-symbol { color: #6B8E4E; }
+.circle-card.harmony .circle-symbol { color: #4A6B8E; }
+
+.circle-name {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--ink-900);
+}
+.circle-name .thai { font-family: var(--thai); font-weight: 600; }
+.circle-triad {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.25em;
+  color: var(--gold-600);
+  text-transform: uppercase;
+  margin: 0.25rem 0 1rem;
+  font-weight: 500;
+}
+.circle-count {
+  font-size: 0.8rem;
+  color: var(--ink-500);
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed var(--cream-200);
+}
+.circle-count strong { color: var(--ink-900); font-family: var(--serif); font-size: 1.2em; font-weight: 500; }
+.circle-role {
+  font-size: 0.85rem;
+  color: var(--ink-500);
+  line-height: 1.55;
+}
+.circle-role strong { color: var(--ink-900); font-weight: 600; }
+.circle-tasks {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px dashed var(--cream-200);
+}
+.circle-tasks li {
+  font-size: 0.82rem;
+  color: var(--ink-500);
+  list-style: none;
+  padding: 0.2rem 0;
+  padding-left: 1rem;
+  position: relative;
+  line-height: 1.5;
+}
+.circle-tasks li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--gold-500);
+}
+
+/* ============== HARMONY TEAM ============== */
+.team-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.team-card {
+  background: white;
+  border: 1px solid var(--cream-200);
+  border-radius: 6px;
+  padding: 1.5rem;
+  position: relative;
+}
+.team-card.advisor {
+  background: linear-gradient(135deg, var(--ink-900) 0%, var(--ink-700) 100%);
+  color: var(--cream-50);
+  border-color: var(--ink-900);
+  grid-column: 1 / -1;
+}
+.team-avatar {
+  width: 52px; height: 52px;
+  background: var(--cream-100);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-size: 1.4rem;
+  color: var(--gold-700);
+  margin-bottom: 1rem;
+  border: 1px solid var(--gold-400);
+}
+.team-card.advisor .team-avatar {
+  background: var(--gold-500);
+  color: var(--ink-900);
+  border-color: var(--gold-400);
+}
+.team-name {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+.team-card.advisor .team-name { color: var(--cream-50); }
+.team-role {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold-600);
+  margin-bottom: 0.75rem;
+}
+.team-card.advisor .team-role { color: var(--gold-400); }
+.team-context {
+  font-size: 0.85rem;
+  color: var(--ink-500);
+  line-height: 1.55;
+}
+.team-card.advisor .team-context { color: var(--cream-200); }
+.team-lens {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  background: var(--cream-100);
+  color: var(--gold-700);
+  padding: 0.2rem 0.6rem;
+  border-radius: 2px;
+  margin-top: 0.75rem;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+}
+.team-card.advisor .team-lens { background: var(--gold-500); color: var(--ink-900); }
+
+/* ============== TIMELINE ============== */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 0.5rem;
+  top: 0.25rem;
+  bottom: 0.25rem;
+  width: 1px;
+  background: linear-gradient(180deg, var(--gold-500), var(--cream-200));
+}
+.timeline-item {
+  position: relative;
+  padding-bottom: 2rem;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -1.5rem;
+  top: 0.4rem;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: var(--gold-500);
+  border: 2px solid var(--cream-50);
+  box-shadow: 0 0 0 1px var(--gold-500);
+}
+.timeline-item.current::before { background: var(--ink-900); box-shadow: 0 0 0 1px var(--ink-900), 0 0 0 5px rgba(26, 24, 20, 0.1); }
+.timeline-phase {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--gold-600);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+.timeline-title {
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: var(--ink-900);
+  margin: 0.15rem 0 0.35rem;
+}
+.timeline-title .thai { font-family: var(--thai); font-weight: 600; }
+.timeline-dates {
+  font-size: 0.8rem;
+  color: var(--ink-500);
+  margin-bottom: 0.6rem;
+  font-style: italic;
+}
+.timeline-body {
+  font-size: 0.9rem;
+  color: var(--ink-500);
+  line-height: 1.55;
+}
+
+/* ============== PHASE 0 WEEKLY ============== */
+.week-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.day-row {
+  display: grid;
+  grid-template-columns: 80px 1fr 180px;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.85rem 1.1rem;
+  background: white;
+  border: 1px solid var(--cream-200);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+.day-row:hover { border-color: var(--gold-400); background: var(--cream-50); }
+.day-row.weekend { background: var(--cream-100); opacity: 0.7; }
+.day-name {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ink-900);
+}
+.day-activity {
+  font-size: 0.88rem;
+  color: var(--ink-700);
+  line-height: 1.5;
+}
+.day-format {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--ink-500);
+  letter-spacing: 0.08em;
+  text-align: right;
+}
+
+/* ============== CHECKLIST ============== */
+.checklist-group {
+  background: white;
+  border: 1px solid var(--cream-200);
+  border-radius: 6px;
+  padding: 1.5rem 1.75rem;
+  margin-bottom: 1rem;
+}
+.checklist-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--cream-200);
+}
+.checklist-title {
+  font-family: var(--serif);
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--ink-900);
+}
+.checklist-title .thai { font-family: var(--thai); font-weight: 600; }
+.checklist-progress {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--gold-600);
+  letter-spacing: 0.1em;
+  font-weight: 500;
+}
+.checklist-bar {
+  height: 3px;
+  background: var(--cream-200);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+.checklist-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold-500), var(--gold-400));
+  transition: width 0.5s ease;
+}
+.check-item {
+  display: flex;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  align-items: flex-start;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.check-item:hover { opacity: 0.8; }
+.check-item input[type="checkbox"] {
+  appearance: none;
+  width: 18px; height: 18px;
+  min-width: 18px;
+  border: 1.5px solid var(--ink-300);
+  border-radius: 3px;
+  margin-top: 2px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s;
+  background: white;
+}
+.check-item input[type="checkbox"]:checked {
+  background: var(--ink-900);
+  border-color: var(--ink-900);
+}
+.check-item input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  color: var(--gold-400);
+  font-size: 13px;
+  font-weight: bold;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  line-height: 1;
+}
+.check-item label {
+  font-size: 0.92rem;
+  color: var(--ink-700);
+  cursor: pointer;
+  line-height: 1.5;
+  flex: 1;
+}
+.check-item input[type="checkbox"]:checked + label {
+  text-decoration: line-through;
+  color: var(--ink-300);
+}
+
+/* ============== FLAGSHIP ============== */
+.flagship-hero {
+  background: linear-gradient(135deg, var(--ink-900) 0%, var(--ink-700) 100%);
+  color: var(--cream-50);
+  padding: 2.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+.flagship-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%; right: -20%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(212, 178, 102, 0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+.flagship-badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  background: var(--gold-500);
+  color: var(--ink-900);
+  padding: 0.35rem 0.85rem;
+  border-radius: 2px;
+  letter-spacing: 0.2em;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+.flagship-title {
+  font-family: var(--serif);
+  font-size: 2.5rem;
+  font-weight: 500;
+  line-height: 1.05;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+.flagship-title .thai { font-family: var(--thai); font-weight: 600; display: block; }
+.flagship-subtitle {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-style: italic;
+  color: var(--gold-400);
+  margin-bottom: 1.5rem;
+}
+.flagship-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1.25rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid rgba(212, 178, 102, 0.2);
+  position: relative;
+  z-index: 1;
+}
+.fm-item { }
+.fm-label {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  color: var(--gold-400);
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+.fm-value {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  color: var(--cream-50);
+  font-weight: 500;
+}
+
+/* ============== TABLES ============== */
+.table-wrap {
+  background: white;
+  border: 1px solid var(--cream-200);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.data-table thead {
+  background: var(--cream-100);
+}
+.data-table th {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: var(--ink-700);
+  text-transform: uppercase;
+  text-align: left;
+  padding: 0.85rem 1rem;
+  font-weight: 600;
+  border-bottom: 1px solid var(--cream-200);
+}
+.data-table td {
+  padding: 0.85rem 1rem;
+  font-size: 0.88rem;
+  color: var(--ink-700);
+  border-bottom: 1px solid var(--cream-200);
+  line-height: 1.45;
+}
+.data-table tbody tr:last-child td { border-bottom: none; }
+.data-table tbody tr { transition: background 0.15s; }
+.data-table tbody tr:hover { background: var(--cream-50); }
+.data-table .highlight {
+  color: var(--gold-700);
+  font-weight: 600;
+}
+.data-table .tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 2px;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+}
+.tag-gold { background: var(--cream-100); color: var(--gold-700); }
+.tag-green { background: #E8F0E0; color: #4C6B35; }
+.tag-blue { background: #E0E8F0; color: #2E4C6B; }
+.tag-red { background: #F0E0DE; color: #8A3C32; }
+
+/* ============== POLICY MAP ============== */
+.policy-stack {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.policy-row {
+  display: grid;
+  grid-template-columns: 40px 1fr auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.75rem 1.1rem;
+  background: white;
+  border: 1px solid var(--cream-200);
+  border-radius: 4px;
+  transition: all 0.2s;
+}
+.policy-row:hover { border-color: var(--gold-400); transform: translateX(3px); }
+.policy-rank {
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--gold-600);
+  text-align: center;
+}
+.policy-name {
+  font-size: 0.92rem;
+  color: var(--ink-900);
+  font-weight: 500;
+}
+.policy-name .sub {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--ink-500);
+  font-weight: 400;
+  margin-top: 0.15rem;
+}
+.policy-priority {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 2px;
+  text-transform: uppercase;
+}
+
+/* ============== DECISIONS (TOP-OF-MIND) ============== */
+.decision-card {
+  background: var(--cream-100);
+  border-left: 3px solid var(--gold-500);
+  padding: 1.25rem 1.5rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+}
+.decision-status {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  padding: 0.2rem 0.55rem;
+  border-radius: 2px;
+  background: var(--green-ok);
+  color: white;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+.decision-status.done { background: var(--green-ok); }
+.decision-status.pending { background: var(--gold-600); }
+.decision-q {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  color: var(--ink-900);
+  margin-bottom: 0.35rem;
+  font-weight: 500;
+}
+.decision-a {
+  font-size: 0.9rem;
+  color: var(--ink-500);
+  line-height: 1.55;
+}
+
+/* ============== FOOTER ============== */
+.footer {
+  margin-top: 4rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--cream-200);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  font-size: 0.82rem;
+  color: var(--ink-500);
+}
+.footer-brand {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  color: var(--ink-700);
+  margin-bottom: 0.35rem;
+  font-weight: 500;
+}
+.footer-meta {
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+}
+
+/* ============== RESPONSIVE ============== */
+@media (max-width: 900px) {
+  .container { padding: 1.5rem 1.25rem 3rem; }
+  .header { grid-template-columns: 1fr; gap: 1rem; padding-top: 1.5rem; }
+  .header-meta { text-align: left; }
+  .overview-hero { grid-template-columns: 1fr; padding: 1.5rem; }
+  .values-row { grid-template-columns: 1fr 1fr; }
+  .circles-diagram { grid-template-columns: 1fr; }
+  .day-row { grid-template-columns: 60px 1fr; }
+  .day-format { grid-column: 2; text-align: left; }
+  .flagship-title { font-size: 1.75rem; }
+  .section-heading { font-size: 1.5rem; }
+}
+
+@media print {
+  .dashboard-nav { display: none; }
+  .panel { display: block !important; page-break-before: always; }
+  body { background: white; }
+}
+
+/* Subtle entrance */
+.card, .metric, .circle-card, .team-card, .day-row, .policy-row, .timeline-item, .value-card {
+  animation: slideIn 0.5s ease backwards;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Export button */
+.action-bar {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+.action-btn {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  padding: 0.55rem 1rem;
+  background: white;
+  border: 1px solid var(--ink-300);
+  border-radius: 3px;
+  color: var(--ink-700);
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+.action-btn:hover { background: var(--ink-900); color: var(--cream-50); border-color: var(--ink-900); }
+.action-btn.primary { background: var(--ink-900); color: var(--cream-50); border-color: var(--ink-900); }
+.action-btn.primary:hover { background: var(--gold-700); border-color: var(--gold-700); }
+</style>
+</head>
+<body>
+<div class="container">
+
+<!-- HEADER -->
+<header class="header">
+  <div>
+    <div class="brand-mark">IBHAP Foundation · มูลนิธิ สกพ.</div>
+    <h1 class="masthead">
+      <span class="thai">สหภาคี IBHAP</span>
+      <span class="en">Sahaphakee IBHAP — Command Dashboard</span>
+    </h1>
+    <p class="subtitle">
+      ระบบบริหารจิตอาสาในวาระปีจิตอาสาสากล (IYV+25) พุทธศักราช ๒๕๖๙<br>
+      ขับเคลื่อนพุทธศาสนาเพื่อเป้าหมายการพัฒนาที่ยั่งยืน · Buddhism for SDGs · 5Ps + Phra
+    </p>
+  </div>
+  <div class="header-meta">
+    <div class="date">๑๗ เมษายน ๒๕๖๙</div>
+    <div>Phase <span class="version">0 / Reactivation</span></div>
+    <div>Blueprint <span class="version">v1.0</span></div>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav class="dashboard-nav">
+  <button class="nav-btn active" data-panel="overview"><span class="num">01</span>ภาพรวม</button>
+  <button class="nav-btn" data-panel="values"><span class="num">02</span>ค่านิยม I·B·H·A·P</button>
+  <button class="nav-btn" data-panel="circles"><span class="num">03</span>สามวง</button>
+  <button class="nav-btn" data-panel="team"><span class="num">04</span>ทีมแกน</button>
+  <button class="nav-btn" data-panel="phase0"><span class="num">05</span>Phase 0</button>
+  <button class="nav-btn" data-panel="flagship"><span class="num">06</span>Flagship Report</button>
+  <button class="nav-btn" data-panel="policy"><span class="num">07</span>Policy Bridge</button>
+  <button class="nav-btn" data-panel="roadmap"><span class="num">08</span>12-Month Roadmap</button>
+  <button class="nav-btn" data-panel="actions"><span class="num">09</span>Action Items</button>
+</nav>
+
+<!-- ================== PANEL 1: OVERVIEW ================== -->
+<div class="panel active" data-panel="overview">
+
+  <div class="overview-hero">
+    <div>
+      <div class="section-sub">The Strategic Thesis</div>
+      <p class="hero-quote">
+        IBHAP ไม่มีเจ้าหน้าที่ประจำ ไม่ใช่จุดอ่อนในปีจิตอาสาสากล — มันเป็นจุดเปลี่ยน ที่บังคับให้มูลนิธิยกระดับจากองค์กรพึ่งพาบุคคล ไปเป็น platform-based organization ที่ใช้คนน้อย ทำงานใหญ่ ผ่านเครือข่าย
+      </p>
+      <div class="hero-attribution">— Blueprint v1.0 Design Principle</div>
+    </div>
+    <div class="metric-grid">
+      <div class="metric">
+        <div class="metric-num">50</div>
+        <div class="metric-label">Active Volunteers · 12 mo.</div>
+      </div>
+      <div class="metric">
+        <div class="metric-num">4</div>
+        <div class="metric-label">Policy Briefs · 12 mo.</div>
+      </div>
+      <div class="metric">
+        <div class="metric-num">5</div>
+        <div class="metric-label">Pilot Temples</div>
+      </div>
+      <div class="metric">
+        <div class="metric-num">30<span style="font-size:0.5em;color:var(--ink-500);">min</span></div>
+        <div class="metric-label">Phra Ajarn Daily Commitment</div>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="section-heading">Five Design Anchors <span style="font-family:var(--mono);font-size:0.7em;color:var(--gold-600);letter-spacing:0.2em;margin-left:0.5rem;">หลักยึด ๕ ประการ</span></h2>
+  <div class="section-sub">Foundations of the entire system</div>
+
+  <div class="grid-3">
+    <div class="card">
+      <div class="card-label">Anchor 01 · Architecture</div>
+      <div class="card-title"><span class="thai">ไตรสิกขา</span></div>
+      <p style="color:var(--ink-500);font-size:0.92rem;line-height:1.6;margin-top:0.5rem;">
+        ใช้ตราสัญลักษณ์มูลนิธิ (นกพิราบ ๓ ตัว = ปัญญา ศีล สมาธิ) เป็นสถาปัตยกรรมของจิตอาสา ๓ วง
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-label">Anchor 02 · Culture</div>
+      <div class="card-title">I · B · H · A · P</div>
+      <p style="color:var(--ink-500);font-size:0.92rem;line-height:1.6;margin-top:0.5rem;">
+        ค่านิยม ๕ คู่ เป็นวัฒนธรรมปฏิบัติ กำกับทุกการตัดสินใจ โดยเน้น <strong style="color:var(--gold-700);">I</strong> ในปีแรก
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-label">Anchor 03 · Output</div>
+      <div class="card-title"><span class="thai">Triangle Output</span></div>
+      <p style="color:var(--ink-500);font-size:0.92rem;line-height:1.6;margin-top:0.5rem;">
+        ทุกเนื้องานออกเป็น ๓ รูปแบบ: Academic paper / Practitioner toolkit / Policy brief
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-label">Anchor 04 · Partnership</div>
+      <div class="card-title">AI + Human</div>
+      <p style="color:var(--ink-500);font-size:0.92rem;line-height:1.6;margin-top:0.5rem;">
+        AI รับ 70–80% ของ admin work ให้มนุษย์โฟกัสที่การตัดสินใจเชิงคุณค่าและความสัมพันธ์
+      </p>
+    </div>
+    <div class="card">
+      <div class="card-label">Anchor 05 · Leverage</div>
+      <div class="card-title"><span class="thai">Policy Bridge</span></div>
+      <p style="color:var(--ink-500);font-size:0.92rem;line-height:1.6;margin-top:0.5rem;">
+        Policy makers = จุดคานงัด ผ่าน Flagship Report "Temples of Tomorrow"
+      </p>
+    </div>
+    <div class="card" style="background:var(--ink-900);color:var(--cream-50);border-color:var(--ink-900);">
+      <div class="card-label" style="color:var(--gold-400);">Strategic Lens</div>
+      <div class="card-title" style="color:var(--cream-50);">Strategy & Synergy</div>
+      <p style="color:var(--cream-200);font-size:0.92rem;line-height:1.6;margin-top:0.5rem;">
+        หนึ่งงาน ต้องตอบ ๓ คำถาม (SDG / Policy / Evidence) และสร้างคุณค่า ๓ ทิศ (ผู้รับ / จิตอาสา / มูลนิธิ)
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<!-- ================== PANEL 2: IBHAP VALUES ================== -->
+<div class="panel" data-panel="values">
+  <h2 class="section-heading">Core Values <span style="font-family:var(--mono);font-size:0.7em;color:var(--gold-600);letter-spacing:0.2em;margin-left:0.5rem;">ค่านิยมหลัก</span></h2>
+  <div class="section-sub">IBHAP Operating Culture · Year One Focus: I</div>
+
+  <div class="values-row">
+    <div class="value-card primary">
+      <div class="v-letter">I</div>
+      <div class="v-en">Innovative<br>Information-driven</div>
+      <div class="v-th">มุ่งนวัตกรรม<br>ขับเคลื่อนด้วยข้อมูล</div>
+      <div class="v-badge">Year One Focus</div>
+    </div>
+    <div class="value-card">
+      <div class="v-letter">B</div>
+      <div class="v-en">Buddhism-based<br>Blended</div>
+      <div class="v-th">พุทธศาสนาเป็นฐาน<br>บูรณาการวิถี</div>
+    </div>
+    <div class="value-card">
+      <div class="v-letter">H</div>
+      <div class="v-en">Holistic<br>Harmonised</div>
+      <div class="v-th">วิธีองค์รวม<br>ร่วมประสาน</div>
+    </div>
+    <div class="value-card">
+      <div class="v-letter">A</div>
+      <div class="v-en">Agile<br>Accommodating</div>
+      <div class="v-th">ปรับตัวฉับไว<br>เต็มใจช่วยเหลือ</div>
+    </div>
+    <div class="value-card">
+      <div class="v-letter">P</div>
+      <div class="v-en">Pluralistic<br>Peace-oriented</div>
+      <div class="v-th">คิดเผื่อความหลากหลาย<br>เป้าหมายคือสันติ</div>
+    </div>
+  </div>
+
+  <h3 class="section-heading" style="font-size:1.4rem;margin-top:2rem;">How Each Value Lives in the System</h3>
+  <div class="section-sub">ค่านิยมทำงานอย่างไรในระบบ</div>
+
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr><th style="width:60px;">Value</th><th>Role in System</th><th>Operational Rule</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="highlight" style="font-family:var(--serif);font-size:1.5rem;">I</span></td>
+          <td><strong>Evidence & Ideas Engine</strong><br><span style="color:var(--ink-500);font-size:0.85rem;">กลไกสร้างหลักฐานและความคิดใหม่</span></td>
+          <td>Policy brief ต้องอ้าง ≥ 3 แหล่ง · Innovation Sprint รายไตรมาส · AI เป็น default tool</td>
+        </tr>
+        <tr>
+          <td><span class="highlight" style="font-family:var(--serif);font-size:1.5rem;">B</span></td>
+          <td><strong>Identity & Integration Guard</strong><br><span style="color:var(--ink-500);font-size:0.85rem;">รักษาอัตลักษณ์ขณะเปิดรับบูรณาการ</span></td>
+          <td>Buddhist Lens Briefing (30 min onboarding) · Integration check: "หลวงพ่อพุทธทาสจะว่าอย่างไร"</td>
+        </tr>
+        <tr>
+          <td><span class="highlight" style="font-family:var(--serif);font-size:1.5rem;">H</span></td>
+          <td><strong>Whole-Person, Whole-System Design</strong><br><span style="color:var(--ink-500);font-size:0.85rem;">เคารพทั้งมนุษย์และระบบ</span></td>
+          <td>Personal Growth Canvas · Project ต้องตอบ 5Ps ≥ 3 ข้อ · Cross-circle touchpoint รายเดือน</td>
+        </tr>
+        <tr>
+          <td><span class="highlight" style="font-family:var(--serif);font-size:1.5rem;">A</span></td>
+          <td><strong>Responsiveness & Service Culture</strong><br><span style="color:var(--ink-500);font-size:0.85rem;">วัฒนธรรมความไวและจิตบริการ</span></td>
+          <td>2-week sprints · ตอบใน 24 ชม. (internal) / 48 ชม. (external) · Pivot หลัง 2 sprints ที่ไม่เวิร์ก</td>
+        </tr>
+        <tr>
+          <td><span class="highlight" style="font-family:var(--serif);font-size:1.5rem;">P</span></td>
+          <td><strong>Diversity & Outcome North Star</strong><br><span style="color:var(--ink-500);font-size:0.85rem;">เคารพความต่างและกำกับทิศปลายทาง</span></td>
+          <td>Targets: หญิง ≥ 50%, youth ≥ 40%, ต่างจังหวัด ≥ 30%, นานาชาติ ≥ 20% · Peace Test ทุกโครงการ</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="section-heading" style="font-size:1.4rem;margin-top:2rem;">BHIP Test — Before Every Policy Brief</h3>
+  <div class="section-sub">เกณฑ์ตรวจ ๔ ข้อ ก่อนปล่อย Policy Brief</div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-label">B — Buddhism-based</div>
+      <p style="color:var(--ink-700);font-size:0.92rem;line-height:1.6;">หลักพุทธธรรมที่ใช้อ้างอิงคืออะไร ไม่ใช่ทุกเรื่องต้องใช้ แต่ถ้าใช้ต้องแม่น</p>
+    </div>
+    <div class="card">
+      <div class="card-label">H — Holistic</div>
+      <p style="color:var(--ink-700);font-size:0.92rem;line-height:1.6;">Brief ตอบ 5Ps ครบกี่ข้อ · เป้า ≥ 3 ข้อ</p>
+    </div>
+    <div class="card">
+      <div class="card-label">I — Information-driven</div>
+      <p style="color:var(--ink-700);font-size:0.92rem;line-height:1.6;">Evidence base ≥ 3 แหล่งคืออะไร</p>
+    </div>
+    <div class="card">
+      <div class="card-label">P — Pluralistic + Peace</div>
+      <p style="color:var(--ink-700);font-size:0.92rem;line-height:1.6;">ใครได้ ใครเสีย · Brief รวมเสียงกลุ่มน้อยหรือไม่</p>
+    </div>
+  </div>
+</div>
+
+<!-- ================== PANEL 3: THREE CIRCLES ================== -->
+<div class="panel" data-panel="circles">
+  <h2 class="section-heading">Three Circles Architecture <span style="font-family:var(--mono);font-size:0.7em;color:var(--gold-600);letter-spacing:0.2em;margin-left:0.5rem;">สถาปัตยกรรมสามวง</span></h2>
+  <div class="section-sub">Based on the Triple Training — Paññā · Sīla · Samādhi</div>
+
+  <div class="circles-diagram">
+    <div class="circle-card wisdom">
+      <div class="circle-symbol">◆</div>
+      <div class="circle-name"><span class="thai">วงปัญญา</span></div>
+      <div class="circle-triad">Wisdom · Paññā</div>
+      <div class="circle-count"><strong>15–20</strong> ท่าน · Primary Lens: <strong style="color:var(--gold-700);">I</strong></div>
+      <div class="circle-role"><strong>Evidence & Ideas Engine</strong><br>สร้างความรู้ วิจัย วิเคราะห์นโยบาย</div>
+      <ul class="circle-tasks">
+        <li>Literature review รายไตรมาส</li>
+        <li>Policy brief 2-4 หน้า เดือนละ 1 ชิ้น</li>
+        <li>Case study documentation</li>
+        <li>Translation TH↔EN</li>
+        <li>Research on demand</li>
+      </ul>
+    </div>
+    <div class="circle-card action">
+      <div class="circle-symbol">◆</div>
+      <div class="circle-name"><span class="thai">วงศีล</span></div>
+      <div class="circle-triad">Action · Sīla</div>
+      <div class="circle-count"><strong>30–50</strong> ท่าน · Primary Lens: <strong style="color:var(--green-ok);">B</strong></div>
+      <div class="circle-role"><strong>Practice & Community</strong><br>ลงมือปฏิบัติ ทำโครงการ เชื่อมชุมชน</div>
+      <ul class="circle-tasks">
+        <li>ดำเนินโครงการชุมชน (5Ps framework)</li>
+        <li>Field visit & data collection</li>
+        <li>Testimony & case sharing</li>
+        <li>Co-facilitation workshops</li>
+        <li>Youth engagement</li>
+      </ul>
+    </div>
+    <div class="circle-card harmony">
+      <div class="circle-symbol">◆</div>
+      <div class="circle-name"><span class="thai">วงสมาธิ</span></div>
+      <div class="circle-triad">Harmony · Samādhi</div>
+      <div class="circle-count"><strong>10–15</strong> ท่าน · Primary Lens: <strong style="color:var(--blue-info);">H + A</strong></div>
+      <div class="circle-role"><strong>Process & Coordination</strong><br>ประสาน ดูแลกระบวนการ สื่อสาร</div>
+      <ul class="circle-tasks">
+        <li>Volunteer coordination & onboarding</li>
+        <li>Weekly digest & communications</li>
+        <li>Cross-circle handoff</li>
+        <li>Infrastructure maintenance</li>
+        <li>Finance & compliance</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 class="section-heading" style="font-size:1.4rem;margin-top:2rem;">Commitment Tiers — ระดับความผูกพัน</h3>
+  <div class="section-sub">ไม่มี minimum กดดัน · เลือกระดับตามชีวิตจริง</div>
+
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr><th>ระดับ</th><th>ชม./สัปดาห์</th><th>ตัวอย่างงาน</th><th>บทบาท</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Seed</strong> · เมล็ดพืช</td><td class="highlight">1–2</td><td>Translate 1 page, share 1 post</td><td><span class="tag tag-gold">Micro-volunteer</span></td></tr>
+        <tr><td><strong>Sprout</strong> · ต้นกล้า</td><td class="highlight">3–5</td><td>Draft 1 brief section, facilitate 1 session</td><td><span class="tag tag-green">Task-based</span></td></tr>
+        <tr><td><strong>Tree</strong> · ต้นไม้</td><td class="highlight">8–12</td><td>Lead 1 project sprint</td><td><span class="tag tag-blue">Project lead</span></td></tr>
+        <tr><td><strong>Forest</strong> · ผืนป่า</td><td class="highlight">15+</td><td>Coordinate 1 circle</td><td><span class="tag tag-red">Circle coordinator</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ================== PANEL 4: HARMONY CIRCLE CORE TEAM ================== -->
+<div class="panel" data-panel="team">
+  <h2 class="section-heading">Harmony Circle — Core 3 <span style="font-family:var(--mono);font-size:0.7em;color:var(--gold-600);letter-spacing:0.2em;margin-left:0.5rem;">ทีมแกน Phase 0</span></h2>
+  <div class="section-sub">Reactivation of Trusted Core · เมษายน ๒๕๖๙</div>
+
+  <div class="team-row">
+    <div class="team-card">
+      <div class="team-avatar">จ</div>
+      <div class="team-name">คุณจณัญญา บารมีชัย</div>
+      <div class="team-role">Governance & Coordination</div>
+      <div class="team-context">
+        กรรมการและเลขานุการมูลนิธิ สกพ. — อยู่ร่วมทุกก้าวสำคัญของมูลนิธิ เชื่อมระบบจิตอาสากับคณะกรรมการ
+      </div>
+      <div class="team-lens">Lens: H</div>
+    </div>
+    <div class="team-card">
+      <div class="team-avatar">พ</div>
+      <div class="team-name">คุณพิมพ์นิภา กานต์วารีรักษ์</div>
+      <div class="team-role">Communications & Content</div>
+      <div class="team-context">
+        อดีตหัวหน้าทีมสื่อสารมูลนิธิ — เข้าใจ narrative ของ IBHAP และกรอบ 5Ps+Phra ลึกซึ้ง กำกับ Flagship Report
+      </div>
+      <div class="team-lens">Lens: I</div>
+    </div>
+    <div class="team-card advisor">
+      <div class="team-avatar">ร</div>
+      <div class="team-name">คุณรตญา กอบศิริกาญจน์</div>
+      <div class="team-role">Strategic Advisor · ข้ามทุกวง</div>
+      <div class="team-context">
+        ผู้อำนวยการสำนักเลขาธิการมูลนิธิ สกพ. (ตั้งแต่ พ.ย. ๒๕๖๘) · อดีตรองเลขาธิการ กสม. เกษียณ ต.ค. ๒๕๖๘ · เครือข่ายภาครัฐกว้างขวาง เป็น keystone ของ <strong style="color:var(--gold-400);">Policy Bridge</strong>
+      </div>
+      <div class="team-lens">Lens: Cross-cutting · I + P</div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:2rem;background:var(--cream-100);border-color:var(--gold-400);">
+    <div class="card-label" style="color:var(--gold-700);">Competitive Advantage</div>
+    <p style="color:var(--ink-700);font-size:0.95rem;line-height:1.65;margin-top:0.5rem;">
+      ทั้งสามท่านมีประสบการณ์ IBHAP โดยตรง — ไม่ต้อง onboard องค์กรใหม่ เข้าใจ 5Ps+Phra อยู่แล้ว
+      รู้วัฒนธรรม ไว้วางใจพระอาจารย์ Phase 0 จึงไม่ใช่ "สร้างทีมใหม่" แต่เป็น
+      <strong>Reactivation of Trusted Core</strong> — เปลี่ยนจาก "ฟื้นฟู" เป็น "ยกระดับ"
+    </p>
+  </div>
+
+  <h3 class="section-heading" style="font-size:1.4rem;margin-top:2rem;">Workload Split · Phase 0</h3>
+  <div class="section-sub">How 100% gets distributed</div>
+
+  <div class="grid-3">
+    <div class="card" style="text-align:center;background:var(--ink-900);color:var(--cream-50);border-color:var(--ink-900);">
+      <div class="metric-num" style="color:var(--gold-400);">80%</div>
+      <div class="card-label" style="color:var(--gold-400);margin-top:0.5rem;">AI Co-designer</div>
+      <p style="color:var(--cream-200);font-size:0.88rem;line-height:1.5;margin-top:0.5rem;">Draft · synthesis · outreach · coordination · translation · reporting</p>
+    </div>
+    <div class="card" style="text-align:center;">
+      <div class="metric-num">10%</div>
+      <div class="card-label" style="margin-top:0.5rem;">Harmony Core 3 + Advisor</div>
+      <p style="color:var(--ink-500);font-size:0.88rem;line-height:1.5;margin-top:0.5rem;">Review · approval · strategic input · stakeholder touch</p>
+    </div>
+    <div class="card" style="text-align:center;background:var(--cream-100);border-color:var(--gold-400);">
+      <div class="metric-num" style="color:var(--gold-700);">10%</div>
+      <div class="card-label" style="margin-top:0.5rem;">Phra Ajarn</div>
+      <p style="color:var(--ink-700);font-size:0.88rem;line-height:1.5;margin-top:0.5rem;">30 min/day · Strategic decisions only · no routine work</p>
+    </div>
+  </div>
+</div>
+
+<!-- ================== PANEL 5: PHASE 0 ================== -->
+<div class="panel" data-panel="phase0">
+  <h2 class="section-heading">Phase 0 — Reactivation <span style="font-family:var(--mono);font-size:0.7em;color:var(--gold-600);letter-spacing:0.2em;margin-left:0.5rem;">๑๗ เม.ย.–๓๐ มิ.ย. ๒๕๖๙</span></h2>
+  <div class="section-sub">75 Days · Set foundation without disrupting PhD sprint</div>
+
+  <div class="card" style="background:linear-gradient(135deg, var(--cream-100) 0%, var(--cream-50) 100%);border-color:var(--gold-400);margin-bottom:2rem;">
+    <div class="card-label" style="color:var(--gold-700);">Golden Rule</div>
+    <p style="font-family:var(--serif);font-size:1.15rem;font-style:italic;color:var(--ink-700);line-height:1.55;margin-top:0.5rem;">
+      "ถ้าใน 30 นาทีวันใดต้องเกิน — ถือเป็นปัญหา ไม่ใช่ feature · Harmony Circle ต้องขบให้จบก่อนถึงพระอาจารย์"
+    </p>
+  </div>
+
+  <h3 class="section-heading" style="font-size:1.35rem;">Phra Ajarn's Weekly Pattern · 30 min/day</h3>
+  <div class="section-sub">ตารางรายสัปดาห์ของพระอาจารย์</div>
+
+  <div class="week-grid">
+    <div class="day-row">
+      <div class="day-name">จันทร์</div>
+      <div class="day-activity">Weekly decisions — อนุมัติ 3–5 เรื่องที่ Harmony Circle summarise</div>
+      <div class="day-format">Claude briefing + checkbox</div>
+    </div>
+    <div class="day-row">
+      <div class="day-name">อังคาร</div>
+      <div class="day-activity">Strategic check-in กับคุณจณัญญา (หรือ 1:1 rotating)</div>
+      <div class="day-format">Voice/text · 20+10 min</div>
+    </div>
+    <div class="day-row">
+      <div class="day-name">พุธ</div>
+      <div class="day-activity">Content day — บันทึกเสียง / ร่างโพสต์ / ให้ quote</div>
+      <div class="day-format">Claude transcribe + refine</div>
+    </div>
+    <div class="day-row">
+      <div class="day-name">พฤหัส</div>
+      <div class="day-activity">External touch — reply 1–2 strategic emails (AI draft, Phra Ajarn approve)</div>
+      <div class="day-format">Gmail triage</div>
+    </div>
+    <div class="day-row">
+      <div class="day-name">ศุกร์</div>
+      <div class="day-activity">Review & guidance — อ่าน draft policy brief section</div>
+      <div class="day-format">Comment on doc</div>
+    </div>
+    <div class="day-row">
+      <div class="day-name">เสาร์</div>
+      <div class="day-activity">Spiritual anchor — คลิปเสียง 10 นาทีสำหรับ volunteer community</div>
+      <div class="day-format">Recording</div>
+    </div>
+    <div class="day-row weekend">
+      <div class="day-name">อาทิตย์</div>
+      <div class="day-activity">Breathing space · optional · no required task</div>
+      <div class="day-format">—</div>
+    </div>
+  </div>
+
+  <h3 class="section-heading" style="font-size:1.35rem;margin-top:2rem;">75-Day Timeline</h3>
+  <div class="section-sub">4-week structure</div>
+
+  <div class="timeline">
+    <div class="timeline-item current">
+      <div class="timeline-phase">Week 1–2 · Current</div>
+      <div class="timeline-title">Reactivation <span style="font-weight:400;color:var(--ink-500);font-size:0.85em;">๑๗–๓๐ เม.ย.</span></div>
+      <div class="timeline-dates">Personal letters · 1:1 meetings · infrastructure setup</div>
+      <div class="timeline-body">
+        ส่ง personal letters ถึง core 3 · จัด 1:1 virtual 20–30 นาที รายท่าน · ตั้ง Slack channel และ Notion workspace
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-phase">Week 3–4</div>
+      <div class="timeline-title">Foundation Setup <span style="font-weight:400;color:var(--ink-500);font-size:0.85em;">๑–๑๔ พ.ค.</span></div>
+      <div class="timeline-dates">Kick-off meeting · role alignment · handbook co-authoring</div>
+      <div class="timeline-body">
+        Kick-off ทั้ง 4 ท่าน 90 นาที · Align บทบาทและ cadence · เริ่ม draft volunteer handbook ร่วม · Personal Growth Canvas for core 3
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-phase">Week 5–8</div>
+      <div class="timeline-title">Recruitment + Flagship Scoping <span style="font-weight:400;color:var(--ink-500);font-size:0.85em;">๑๕ พ.ค.–๑๑ มิ.ย.</span></div>
+      <div class="timeline-dates">First volunteer batch + Temples of Tomorrow kickoff</div>
+      <div class="timeline-body">
+        เปิดรับ Seed/Sprout volunteers รุ่นแรก 15–20 ท่าน · เริ่ม Flagship Report — literature review + pilot temples contact · Buddhist Lens Briefing video
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-phase">Week 9–11</div>
+      <div class="timeline-title">Stabilisation <span style="font-weight:400;color:var(--ink-500);font-size:0.85em;">๑๒–๓๐ มิ.ย.</span></div>
+      <div class="timeline-dates">Handoff to Phase 1 · PhD defence readiness</div>
+      <div class="timeline-body">
+        Flagship Scoping complete · Handbook v1.0 finalised · Metrics dashboard operational · เหลือแรงพอให้พระอาจารย์สอบ PhD ๓๐ มิ.ย.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================== PANEL 6: FLAGSHIP REPORT ================== -->
+<div class="panel" data-panel="flagship">
+  <div class="flagship-hero">
+    <div class="flagship-badge">SIGNATURE · IYV+25 FLAGSHIP</div>
+    <h2 class="flagship-title">
+      <span class="thai">วัดแห่งอนาคต</span>
+      Temples of Tomorrow
+    </h2>
+    <div class="flagship-subtitle">Buddhist Institutions as Hubs for Environmental Sustainability and the SDGs</div>
+    <div class="flagship-meta">
+      <div class="fm-item"><div class="fm-label">Format</div><div class="fm-value">20+ pages</div></div>
+      <div class="fm-item"><div class="fm-label">Pilot Temples</div><div class="fm-value">5 sites</div></div>
+      <div class="fm-item"><div class="fm-label">Timeline</div><div class="fm-value">9 months</div></div>
+      <div class="fm-item"><div class="fm-label">Launch</div><div class="fm-value">ธ.ค. 2569</div></div>
+      <div class="fm-item"><div class="fm-label">Primary Lens</div><div class="fm-value">I</div></div>
+    </div>
+  </div>
+
+  <h3 class="section-heading" style="font-size:1.35rem;">Report Structure</h3>
+  <div class="section-sub">โครงสร้าง 20+ หน้า</div>
+
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr><th style="width:70px;">หน้า</th><th>บท</th><th>เนื้อหา</th><th>ผู้รับผิดชอบ</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="highlight">2</td><td><strong>Executive Summary</strong></td><td>สังเคราะห์ + key messages</td><td><span class="tag tag-blue">Harmony</span></td></tr>
+        <tr><td class="highlight">2</td><td><strong>1. Introduction</strong></td><td>วัดในฐานะทุนทางสังคม/วัฒนธรรม/สิ่งแวดล้อม</td><td><span class="tag tag-gold">Wisdom</span></td></tr>
+        <tr><td class="highlight">4</td><td><strong>2. Landscape Analysis</strong></td><td>สถานการณ์ขยะ พลาสติก สิ่งแวดล้อมในวัด</td><td><span class="tag tag-gold">Wisdom</span> + <span class="tag tag-green">Action</span></td></tr>
+        <tr><td class="highlight">3</td><td><strong>3. 5Ps+Phra Framework</strong></td><td>กรอบวิเคราะห์วัดในฐานะ SDG Node</td><td><span class="tag tag-gold">Wisdom</span></td></tr>
+        <tr><td class="highlight">6</td><td><strong>4. Case Studies</strong></td><td>Pilot 5 วัด · data · narrative</td><td><span class="tag tag-green">Action</span></td></tr>
+        <tr><td class="highlight">3</td><td><strong>5. Recommendations</strong></td><td>ข้อเสนอต่อวัด ชุมชน policy makers</td><td><span class="tag tag-blue">Harmony</span> + <strong>Advisor</strong></td></tr>
+        <tr><td class="highlight">2–4</td><td><strong>Appendix</strong></td><td>Methodology · acknowledgments · references</td><td>ทั้ง 3 วง</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="section-heading" style="font-size:1.35rem;margin-top:2rem;">Pilot Temples Shortlist</h3>
+  <div class="section-sub">ร่าง · รอการคัดกรองร่วมกับพระอาจารย์และ Advisor</div>
+
+  <div class="grid-2">
+    <div class="card">
+      <div class="card-label">Anchor · Bangkok</div>
+      <div class="card-title"><span class="thai">วัดสระเกศ</span></div>
+      <p style="color:var(--ink-500);font-size:0.88rem;line-height:1.55;margin-top:0.5rem;">พิธีกรรมขนาดใหญ่ · การจัดการขยะจากผู้แสวงบุญและนักท่องเที่ยว</p>
+    </div>
+    <div class="card">
+      <div class="card-label">Central Region</div>
+      <div class="card-title"><span class="thai">วัดในภาคกลาง</span></div>
+      <p style="color:var(--ink-500);font-size:0.88rem;line-height:1.55;margin-top:0.5rem;">ตัวอย่างการลดขยะพลาสติกในงานบุญประเพณี · จากเครือข่ายพระนักพัฒนา</p>
+    </div>
+    <div class="card">
+      <div class="card-label">Tourism Zone</div>
+      <div class="card-title"><span class="thai">เชียงใหม่/ภูเก็ต</span></div>
+      <p style="color:var(--ink-500);font-size:0.88rem;line-height:1.55;margin-top:0.5rem;">การจัดการขยะจากนักท่องเที่ยวร่วมกับชุมชน</p>
+    </div>
+    <div class="card">
+      <div class="card-label">Rural/Northeastern</div>
+      <div class="card-title"><span class="thai">ภาคอีสาน/เหนือ</span></div>
+      <p style="color:var(--ink-500);font-size:0.88rem;line-height:1.55;margin-top:0.5rem;">การใช้ธรรมชาติและเกษตรอินทรีย์ร่วมกับงานพัฒนา</p>
+    </div>
+    <div class="card" style="background:var(--cream-100);border-color:var(--gold-400);">
+      <div class="card-label" style="color:var(--gold-700);">Southern · Interfaith</div>
+      <div class="card-title"><span class="thai">วัดตานีนรสโมสร</span> (BAHRC)</div>
+      <p style="color:var(--ink-700);font-size:0.88rem;line-height:1.55;margin-top:0.5rem;">Interfaith coexistence + environmental justice · เชื่อมงาน BAHRC</p>
+    </div>
+  </div>
+
+  <h3 class="section-heading" style="font-size:1.35rem;margin-top:2rem;">Budget Estimate</h3>
+  <div class="section-sub">ประมาณการเบื้องต้น · ปรับหลัง scoping สมบูรณ์</div>
+
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead>
+        <tr><th>หมวด</th><th>รายการ</th><th style="text-align:right;">บาท</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Field visits</td><td>เดินทาง 5 วัด · พักค้าง · waste audit equipment</td><td style="text-align:right;" class="highlight">150,000</td></tr>
+        <tr><td>Honorarium</td><td>Key informants (15 ท่าน × 2,000)</td><td style="text-align:right;" class="highlight">30,000</td></tr>
+        <tr><td>Translation</td><td>TH→EN full report + brief</td><td style="text-align:right;" class="highlight">50,000</td></tr>
+        <tr><td>Design & printing</td><td>Layout · infographics · printing 500 copies</td><td style="text-align:right;" class="highlight">80,000</td></tr>
+        <tr><td>Launch event</td><td>Venue · catering · materials</td><td style="text-align:right;" class="highlight">50,000</td></tr>
+        <tr><td>Miscellaneous</td><td>Communications · contingency</td><td style="text-align:right;" class="highlight">40,000</td></tr>
+        <tr style="background:var(--ink-900);color:var(--cream-50);"><td style="color:var(--cream-50);"><strong>รวม</strong></td><td></td><td style="text-align:right;color:var(--gold-400);font-family:var(--serif);font-size:1.2rem;font-weight:500;">400,000</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card" style="margin-top:1rem;">
+    <div class="card-label">Funding Targets</div>
+    <p style="color:var(--ink-500);font-size:0.92rem;line-height:1.6;margin-top:0.5rem;">
+      UNEP Faith for Earth · PaRD · AVPN Harmony in Diversity Fund · KAICIID ambassador · สสส. · IBHAP network donations
+    </p>
+  </div>
+</div>
+
+<!-- ================== PANEL 7: POLICY BRIDGE ================== -->
+<div class="panel" data-panel="policy">
+  <h2 class="section-heading">Policy Bridge <span style="font-family:var(--mono);font-size:0.7em;color:var(--gold-600);letter-spacing:0.2em;margin-left:0.5rem;">จุดคานงัด</span></h2>
+  <div class="section-sub">Where IBHAP's work meets decision-makers</div>
+
+  <h3 class="section-heading" style="font-size:1.35rem;">Thailand · Priority Order</h3>
+  <div class="section-sub">ลำดับความสำคัญของ policy makers ในประเทศ</div>
+
+  <div class="policy-stack">
+    <div class="policy-row">
+      <div class="policy-rank">1</div>
+      <div class="policy-name">สสส. (ThaiHealth)<span class="sub">Thai Health Promotion Foundation · มีงบ มีเครือข่ายสุขภาวะ อยากเชื่อมศาสนา</span></div>
+      <span class="tag tag-red policy-priority">Highest</span>
+    </div>
+    <div class="policy-row">
+      <div class="policy-rank">2</div>
+      <div class="policy-name">NESDC (สศช.)<span class="sub">National Economic and Social Development Council · เจ้าของ SDG Roadmap</span></div>
+      <span class="tag tag-red policy-priority">Highest</span>
+    </div>
+    <div class="policy-row">
+      <div class="policy-rank">3</div>
+      <div class="policy-name">กสม. (NHRC)<span class="sub">National Human Rights Commission · เชื่อมงาน APMA + BAHRC · มี warm entry</span></div>
+      <span class="tag tag-gold policy-priority">High</span>
+    </div>
+    <div class="policy-row">
+      <div class="policy-rank">4</div>
+      <div class="policy-name">สำนักงานพระพุทธศาสนาแห่งชาติ<span class="sub">National Office of Buddhism · ใกล้ชิดมหาเถร</span></div>
+      <span class="tag tag-gold policy-priority">High</span>
+    </div>
+    <div class="policy-row">
+      <div class="policy-rank">5</div>
+      <div class="policy-name">กระทรวงการพัฒนาสังคมฯ<span class="sub">MSDHS · เชื่อมผ่านงานกรมพัฒนาสังคมและสวัสดิการ (พส./DSDW)</span></div>
+      <span class="tag tag-blue policy-priority">Medium</span>
+    </div>
+    <div class="policy-row">
+      <div class="policy-rank">6</div>
+      <div class="policy-name">กรมการปกครอง<span class="sub">DOPA · การจดทะเบียนสมาคม RfP Thailand · ต.ค. 2569</span></div>
+      <span class="tag tag-blue policy-priority">Medium</span>
+    </div>
+  </div>
+
+  <h3 class="section-heading" style="font-size:1.35rem;margin-top:2rem;">International Network</h3>
+  <div class="section-sub">เครือข่ายที่ IBHAP มีอยู่แล้ว</div>
+
+  <div class="grid-3">
+    <div class="card"><div class="card-label">Dialogue Platform</div><div class="card-title">KAICIID</div><p style="color:var(--ink-500);font-size:0.85rem;margin-top:0.5rem;">International Dialogue Centre</p></div>
+    <div class="card"><div class="card-label">Faith & SDG</div><div class="card-title">PaRD</div><p style="color:var(--ink-500);font-size:0.85rem;margin-top:0.5rem;">Religion & Sustainable Development</p></div>
+    <div class="card"><div class="card-label">Interreligious</div><div class="card-title">WCC-IRDC</div><p style="color:var(--ink-500);font-size:0.85rem;margin-top:0.5rem;">World Council of Churches</p></div>
+    <div class="card"><div class="card-label">Asian Religions</div><div class="card-title">ACRP / RfP</div><p style="color:var(--ink-500);font-size:0.85rem;margin-top:0.5rem;">10th GA Singapore · พ.ย. 2569</p></div>
+    <div class="card"><div class="card-label">UN · Environment</div><div class="card-title">UNEP Faith for Earth</div><p style="color:var(--ink-500);font-size:0.85rem;margin-top:0.5rem;">Direct link for Temples of Tomorrow</p></div>
+    <div class="card"><div class="card-label">UN · Development</div><div class="card-title">UNDP</div><p style="color:var(--ink-500);font-size:0.85rem;margin-top:0.5rem;">Faith-based development partnerships</p></div>
+  </div>
+
+  <h3 class="section-heading" style="font-size:1.35rem;margin-top:2rem;">Triangle Output — หนึ่งเนื้อหา · สามผลงาน</h3>
+  <div class="section-sub">Every piece of content produces three formats for three audiences</div>
+
+  <div class="grid-3">
+    <div class="card"><div class="card-label">15–25 pages</div><div class="card-title">Academic Paper</div><p style="color:var(--ink-500);font-size:0.9rem;line-height:1.55;margin-top:0.5rem;">For: Wisdom community<br>Led by: Wisdom Circle<br>Supported by: Action Circle</p></div>
+    <div class="card"><div class="card-label">8–12 pages</div><div class="card-title">Practitioner Toolkit</div><p style="color:var(--ink-500);font-size:0.9rem;line-height:1.55;margin-top:0.5rem;">For: Action community<br>Led by: Action Circle<br>Supported by: Wisdom Circle</p></div>
+    <div class="card" style="background:var(--ink-900);color:var(--cream-50);border-color:var(--ink-900);"><div class="card-label" style="color:var(--gold-400);">2–4 pages</div><div class="card-title" style="color:var(--cream-50);">Policy Brief</div><p style="color:var(--cream-200);font-size:0.9rem;line-height:1.55;margin-top:0.5rem;">For: Policy makers<br>Led by: Harmony Circle<br>Strategic review: Advisor</p></div>
+  </div>
+</div>
+
+<!-- ================== PANEL 8: ROADMAP ================== -->
+<div class="panel" data-panel="roadmap">
+  <h2 class="section-heading">12-Month Roadmap <span style="font-family:var(--mono);font-size:0.7em;color:var(--gold-600);letter-spacing:0.2em;margin-left:0.5rem;">แผน ๑๒ เดือน</span></h2>
+  <div class="section-sub">4 Phases · พฤษภาคม ๒๕๖๙ → เมษายน ๒๕๗๐</div>
+
+  <div class="timeline">
+    <div class="timeline-item current">
+      <div class="timeline-phase">Phase 0 · Foundation</div>
+      <div class="timeline-title">Reactivation of Trusted Core</div>
+      <div class="timeline-dates">พฤษภาคม–มิถุนายน ๒๕๖๙ · 2 months</div>
+      <div class="timeline-body">
+        ไม่รบกวน PhD sprint · Core 3 + Advisor active · Blueprint v1.0 · Volunteer Handbook v1.0 · Flagship Scoping complete
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-phase">Phase 1 · Activation</div>
+      <div class="timeline-title">Opening Three Circles</div>
+      <div class="timeline-dates">กรกฎาคม–กันยายน ๒๕๖๙ · 3 months</div>
+      <div class="timeline-body">
+        เปิดรับ 3 วงพร้อมกัน เป้า 30 ท่าน · Policy Brief #1 ปล่อย · IYV+25 campaign · เตรียม ACRP GA Singapore · Flagship fieldwork
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-phase">Phase 2 · Amplification</div>
+      <div class="timeline-title">Signature Year Moments</div>
+      <div class="timeline-dates">ตุลาคม–ธันวาคม ๒๕๖๙ · 3 months</div>
+      <div class="timeline-body">
+        จดทะเบียน สมาคม RfP Thailand (ต.ค.) · ACRP GA Singapore 23–26 พ.ย. · Flagship Report "Temples of Tomorrow" launch · Annual retreat ที่วัดสระเกศ
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-phase">Phase 3 · Institutionalization</div>
+      <div class="timeline-title">Platform Maturity</div>
+      <div class="timeline-dates">มกราคม–เมษายน ๒๕๗๐ · 4 months</div>
+      <div class="timeline-body">
+        50 volunteers active · 4 policy briefs published · Grants เข้า 2 แหล่ง · เริ่มจ้างเจ้าหน้าที่ประจำ 1–2 ท่านจาก Harmony Circle lead
+      </div>
+    </div>
+  </div>
+
+  <h3 class="section-heading" style="font-size:1.35rem;margin-top:2rem;">Key Metrics · 12-Month Targets</h3>
+
+  <div class="grid-5">
+    <div class="card" style="text-align:center;"><div class="metric-num">50</div><div class="card-label" style="margin-top:0.5rem;">Volunteers</div></div>
+    <div class="card" style="text-align:center;"><div class="metric-num">4</div><div class="card-label" style="margin-top:0.5rem;">Policy Briefs</div></div>
+    <div class="card" style="text-align:center;"><div class="metric-num">5+</div><div class="card-label" style="margin-top:0.5rem;">New Synergy Partners</div></div>
+    <div class="card" style="text-align:center;"><div class="metric-num">1</div><div class="card-label" style="margin-top:0.5rem;">Flagship Report</div></div>
+    <div class="card" style="text-align:center;"><div class="metric-num">2</div><div class="card-label" style="margin-top:0.5rem;">Paid Staff Ready</div></div>
+  </div>
+
+  <h3 class="section-heading" style="font-size:1.35rem;margin-top:2rem;">Risks & Mitigation</h3>
+
+  <div class="table-wrap">
+    <table class="data-table">
+      <thead><tr><th>ความเสี่ยง</th><th>ระดับ</th><th>การป้องกัน</th></tr></thead>
+      <tbody>
+        <tr><td><strong>พระอาจารย์กลายเป็นคอขวด</strong></td><td><span class="tag tag-red">สูง</span></td><td>Weekly digest + SOP 10 routine matters · 30 min/day hard cap</td></tr>
+        <tr><td><strong>Policy brief ไม่มีใครอ่าน</strong></td><td><span class="tag tag-red">สูง</span></td><td>Champion inside ก่อน publish · Advisor (คุณรตญา) เป็น keystone</td></tr>
+        <tr><td><strong>Volunteer burnout</strong></td><td><span class="tag tag-gold">กลาง</span></td><td>15 ชม./สัปดาห์ hard cap · Quarterly rotation · Mandatory 2-week break</td></tr>
+        <tr><td><strong>Pilot วัดไม่ร่วมมือ</strong></td><td><span class="tag tag-gold">กลาง</span></td><td>สำรอง 3 วัด · Advisor ช่วยเชื่อม</td></tr>
+        <tr><td><strong>ทุนไม่เข้าตามแผน</strong></td><td><span class="tag tag-red">สูง</span></td><td>เริ่มด้วย in-kind + Wat Saket base · diversify funding sources</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ================== PANEL 9: ACTIONS (PLAY BOOK) ================== -->
+<div class="panel" data-panel="actions">
+  <h2 class="section-heading">Action Items · 30 Days <span style="font-family:var(--mono);font-size:0.7em;color:var(--gold-600);letter-spacing:0.2em;margin-left:0.5rem;">สิ่งที่ต้องทำ</span></h2>
+  <div class="section-sub">Interactive checklist · Progress saved automatically</div>
+
+  <div class="action-bar">
+    <a class="action-btn primary notion-btn" id="notion-link" href="#" target="_blank" rel="noopener">
+      <span style="letter-spacing:0.08em;">◈ เปิดใน Notion</span>
+    </a>
+    <button class="action-btn" id="expand-all">Expand All</button>
+    <button class="action-btn" id="reset-progress">Reset Progress</button>
+    <button class="action-btn" onclick="window.print()">Print / Save PDF</button>
+  </div>
+
+  <div class="card" style="background:var(--cream-100);border-color:var(--gold-400);margin-bottom:1.5rem;padding:1.1rem 1.4rem;">
+    <p style="color:var(--ink-700);font-size:0.95rem;line-height:1.6;margin:0;">
+      <strong>Checklist นี้เก็บใน browser ของเครื่องนี้</strong> — เหมาะสำหรับดูส่วนตัวของพระอาจารย์ หากต้องการ collaborate กับทีม Harmony Circle โปรดใช้ Notion workspace ซึ่ง sync ข้ามอุปกรณ์ และทุกท่านเห็น progress เดียวกัน
+    </p>
+  </div>
+
+  <div class="checklist-group">
+    <div class="checklist-head">
+      <div class="checklist-title"><span class="thai">สัปดาห์ที่ ๑</span> — Foundation</div>
+      <div class="checklist-progress" data-group="week1">0 / 5 · 0%</div>
+    </div>
+    <div class="checklist-bar"><div class="checklist-bar-fill" data-group="week1" style="width:0%;"></div></div>
+    <div class="check-item"><input type="checkbox" id="w1-1" data-group="week1"><label for="w1-1">อ่าน Blueprint v1.0 · Volunteer Handbook v0.9 · Flagship Scoping Note</label></div>
+    <div class="check-item"><input type="checkbox" id="w1-2" data-group="week1"><label for="w1-2">Review 3 personal letters · ปรับน้ำเสียงให้เป็นของพระอาจารย์</label></div>
+    <div class="check-item"><input type="checkbox" id="w1-3" data-group="week1"><label for="w1-3">ส่ง letter ถึงคุณจณัญญา บารมีชัย</label></div>
+    <div class="check-item"><input type="checkbox" id="w1-4" data-group="week1"><label for="w1-4">ส่ง letter ถึงคุณรตญา กอบศิริกาญจน์</label></div>
+    <div class="check-item"><input type="checkbox" id="w1-5" data-group="week1"><label for="w1-5">ส่ง letter ถึงคุณพิมพ์นิภา กานต์วารีรักษ์</label></div>
+  </div>
+
+  <div class="checklist-group">
+    <div class="checklist-head">
+      <div class="checklist-title"><span class="thai">สัปดาห์ที่ ๒</span> — 1:1 Meetings</div>
+      <div class="checklist-progress" data-group="week2">0 / 5 · 0%</div>
+    </div>
+    <div class="checklist-bar"><div class="checklist-bar-fill" data-group="week2" style="width:0%;"></div></div>
+    <div class="check-item"><input type="checkbox" id="w2-1" data-group="week2"><label for="w2-1">นัด 1:1 virtual meeting 20–30 นาที กับคุณจณัญญา</label></div>
+    <div class="check-item"><input type="checkbox" id="w2-2" data-group="week2"><label for="w2-2">นัด 1:1 virtual meeting 20–30 นาที กับคุณรตญา</label></div>
+    <div class="check-item"><input type="checkbox" id="w2-3" data-group="week2"><label for="w2-3">นัด 1:1 virtual meeting 20–30 นาที กับคุณพิมพ์นิภา</label></div>
+    <div class="check-item"><input type="checkbox" id="w2-4" data-group="week2"><label for="w2-4">ตั้ง Slack channel <code>#ibhap-harmony-core</code></label></div>
+    <div class="check-item"><input type="checkbox" id="w2-5" data-group="week2"><label for="w2-5">ตั้ง Notion workspace · สหภาคี IBHAP</label></div>
+  </div>
+
+  <div class="checklist-group">
+    <div class="checklist-head">
+      <div class="checklist-title"><span class="thai">สัปดาห์ที่ ๓–๔</span> — Kick-off</div>
+      <div class="checklist-progress" data-group="week34">0 / 5 · 0%</div>
+    </div>
+    <div class="checklist-bar"><div class="checklist-bar-fill" data-group="week34" style="width:0%;"></div></div>
+    <div class="check-item"><input type="checkbox" id="w34-1" data-group="week34"><label for="w34-1">เตรียม agenda + facilitation guide สำหรับ kick-off meeting</label></div>
+    <div class="check-item"><input type="checkbox" id="w34-2" data-group="week34"><label for="w34-2">Kick-off meeting ทั้ง 4 ท่าน · 90 นาที</label></div>
+    <div class="check-item"><input type="checkbox" id="w34-3" data-group="week34"><label for="w34-3">Align บทบาท · expectation · cadence</label></div>
+    <div class="check-item"><input type="checkbox" id="w34-4" data-group="week34"><label for="w34-4">เริ่ม draft Volunteer Handbook v1.0 ร่วมกัน</label></div>
+    <div class="check-item"><input type="checkbox" id="w34-5" data-group="week34"><label for="w34-5">เปิด Personal Growth Canvas form สำหรับ core 3</label></div>
+  </div>
+
+  <div class="checklist-group">
+    <div class="checklist-head">
+      <div class="checklist-title"><span class="thai">Flagship Report</span> — 30-Day Start</div>
+      <div class="checklist-progress" data-group="flagship">0 / 5 · 0%</div>
+    </div>
+    <div class="checklist-bar"><div class="checklist-bar-fill" data-group="flagship" style="width:0%;"></div></div>
+    <div class="check-item"><input type="checkbox" id="fl-1" data-group="flagship"><label for="fl-1">Harmony Circle review Scoping Note (ต้นพฤษภาคม)</label></div>
+    <div class="check-item"><input type="checkbox" id="fl-2" data-group="flagship"><label for="fl-2">Confirm pilot temples 5 แห่ง (ภายใน 15 พฤษภาคม)</label></div>
+    <div class="check-item"><input type="checkbox" id="fl-3" data-group="flagship"><label for="fl-3">Recruit Wisdom Circle lead author + Action Circle field coordinator</label></div>
+    <div class="check-item"><input type="checkbox" id="fl-4" data-group="flagship"><label for="fl-4">Draft funding proposal · UNEP Faith for Earth + AVPN</label></div>
+    <div class="check-item"><input type="checkbox" id="fl-5" data-group="flagship"><label for="fl-5">Kick-off Flagship Report team call (ต้นมิถุนายน)</label></div>
+  </div>
+
+  <h3 class="section-heading" style="font-size:1.35rem;margin-top:2rem;">Top-of-Mind Decisions — Settled</h3>
+  <div class="section-sub">การตัดสินใจของพระอาจารย์ · บันทึกไว้</div>
+
+  <div class="decision-card">
+    <div class="decision-status done">Resolved · 17 เม.ย.</div>
+    <div class="decision-q">ชื่อระบบจิตอาสา</div>
+    <div class="decision-a">"สหภาคี IBHAP" (Sahaphakee IBHAP) — สืบจากชื่อเดิมของเครือข่ายจิตอาสามูลนิธิ</div>
+  </div>
+
+  <div class="decision-card">
+    <div class="decision-status done">Resolved · 17 เม.ย.</div>
+    <div class="decision-q">Harmony Circle Core 3 + Advisor</div>
+    <div class="decision-a">คุณจณัญญา บารมีชัย (Governance) · คุณพิมพ์นิภา กานต์วารีรักษ์ (Communications) · คุณรตญา กอบศิริกาญจน์ (Strategic Advisor ข้ามทุกวง)</div>
+  </div>
+
+  <div class="decision-card">
+    <div class="decision-status done">Resolved · 17 เม.ย.</div>
+    <div class="decision-q">เริ่ม Phase 0 เมื่อไร</div>
+    <div class="decision-a">เริ่มก่อน 30 มิ.ย. · พระอาจารย์ 30 นาที/วัน · ระบบรับ 80% · Harmony Circle + Advisor รับ 10%</div>
+  </div>
+
+  <div class="decision-card">
+    <div class="decision-status done">Resolved · 17 เม.ย.</div>
+    <div class="decision-q">Policy Brief ชิ้นแรก</div>
+    <div class="decision-a">Flagship Report 20+ หน้า · "Temples of Tomorrow · วัดแห่งอนาคต" · ประเด็นสิ่งแวดล้อม วัดเป็นศูนย์กลาง 5Ps+Phra</div>
+  </div>
+
+  <div class="decision-card">
+    <div class="decision-status done">Resolved · 17 เม.ย.</div>
+    <div class="decision-q">ค่านิยมหลักปีแรก</div>
+    <div class="decision-a">I (Innovative + Information-driven) — ปีแห่ง Evidence และ Innovation</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div>
+    <div class="footer-brand">IBHAP Foundation · มูลนิธิ สกพ.</div>
+    <div>Institute of Buddhist Management for Happiness and Peace Foundation<br>
+    Buddhism for SDGs · 5Ps + Phra</div>
+  </div>
+  <div class="footer-meta">
+    สหภาคี IBHAP · Blueprint v1.0<br>
+    Command Dashboard · April 2026<br>
+    In the Year of the International Volunteer · IYV+25
+  </div>
+</footer>
+
+</div>
+
+<script>
+// ==================== NOTION WORKSPACE CONFIGURATION ====================
+// เมื่อตั้ง Notion workspace เสร็จแล้ว ใส่ URL ตรงนี้:
+// ตัวอย่าง: const NOTION_URL = 'https://www.notion.so/ibhap/sahaphakee-ibhap-xxxxx';
+const NOTION_URL = 'https://www.notion.so/'; // TODO: replace with actual workspace URL
+
+const notionLink = document.getElementById('notion-link');
+if (notionLink) {
+  if (NOTION_URL === 'https://www.notion.so/' || !NOTION_URL) {
+    // Notion ยังไม่ได้ตั้ง — แสดงข้อความแจ้งแทน
+    notionLink.addEventListener('click', (e) => {
+      e.preventDefault();
+      alert('Notion workspace ยังไม่ได้ตั้ง\n\nเมื่อตั้งเสร็จแล้ว โปรดแก้ไขค่า NOTION_URL ในไฟล์ HTML (ประมาณบรรทัด 1890)');
+    });
+  } else {
+    notionLink.href = NOTION_URL;
+  }
+}
+
+// ==================== NAVIGATION ====================
+const navBtns = document.querySelectorAll('.nav-btn');
+const panels = document.querySelectorAll('.panel');
+
+navBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.panel;
+    navBtns.forEach(b => b.classList.remove('active'));
+    panels.forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelector(`.panel[data-panel="${target}"]`).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+});
+
+// ==================== CHECKLIST PERSISTENCE ====================
+// Uses localStorage — works on any web host (GitHub Pages, local file, etc.)
+// Note: progress is saved per-browser, not synced across devices.
+const STORAGE_KEY = 'ibhap-dashboard-progress';
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const data = JSON.parse(raw);
+      Object.entries(data).forEach(([id, checked]) => {
+        const cb = document.getElementById(id);
+        if (cb) cb.checked = checked;
+      });
+    }
+  } catch (e) {
+    console.warn('Could not load progress:', e);
+  }
+  updateAllProgress();
+}
+
+function saveProgress() {
+  const data = {};
+  document.querySelectorAll('.check-item input[type="checkbox"]').forEach(cb => {
+    data[cb.id] = cb.checked;
+  });
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch (e) {
+    console.warn('Could not save progress:', e);
+  }
+}
+
+function updateGroup(group) {
+  const checkboxes = document.querySelectorAll(`.check-item input[data-group="${group}"]`);
+  const checked = [...checkboxes].filter(cb => cb.checked).length;
+  const total = checkboxes.length;
+  const pct = total ? Math.round((checked / total) * 100) : 0;
+
+  const progressEl = document.querySelector(`.checklist-progress[data-group="${group}"]`);
+  if (progressEl) progressEl.textContent = `${checked} / ${total} · ${pct}%`;
+
+  const fillEl = document.querySelector(`.checklist-bar-fill[data-group="${group}"]`);
+  if (fillEl) fillEl.style.width = `${pct}%`;
+}
+
+function updateAllProgress() {
+  const groups = new Set([...document.querySelectorAll('[data-group]')].map(el => el.dataset.group));
+  groups.forEach(updateGroup);
+}
+
+document.querySelectorAll('.check-item input[type="checkbox"]').forEach(cb => {
+  cb.addEventListener('change', () => {
+    updateGroup(cb.dataset.group);
+    saveProgress();
+  });
+});
+
+// Reset
+document.getElementById('reset-progress')?.addEventListener('click', () => {
+  if (!confirm('Reset all progress? This cannot be undone.')) return;
+  document.querySelectorAll('.check-item input[type="checkbox"]').forEach(cb => cb.checked = false);
+  updateAllProgress();
+  try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+});
+
+// Initial load
+loadProgress();
+
+// ==================== KEYBOARD NAV ====================
+document.addEventListener('keydown', (e) => {
+  if (e.key >= '1' && e.key <= '9') {
+    const idx = parseInt(e.key) - 1;
+    if (navBtns[idx]) navBtns[idx].click();
+  }
+});
+</script>
+</body>
+</html>
